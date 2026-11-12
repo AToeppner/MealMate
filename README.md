@@ -18,12 +18,14 @@ Requirements: **Node.js 24+**
 
 ```bash
 cp .env.example .env
-# Optional later: set OPENAI_API_KEY in .env (do not commit the key)
+# For Live AI: put your key on the OPENAI_API_KEY= line in .env (do not commit .env)
 npm install
 npm start
 ```
 
 Open `http://localhost:3000` (or the `PORT` you set).
+
+**Live AI key tips:** keep `.env` in the project root (same folder as `package.json`), use `OPENAI_API_KEY=sk-...` with no spaces around `=`, then **restart** `npm start`. Startup logs whether the key was picked up. Saved Example mode works with no key.
 
 ```bash
 npm test

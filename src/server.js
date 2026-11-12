@@ -1,10 +1,11 @@
 'use strict';
 
-require('dotenv').config();
-
 const path = require('path');
 const express = require('express');
 const cookieParser = require('cookie-parser');
+
+const { loadEnv, isOpenAiConfigured } = require('./load-env');
+const envInfo = loadEnv();
 
 const {
   loadCatalog,
@@ -88,13 +89,13 @@ app.get('/health', (_req, res) => {
   res.json({
     ok: true,
     service: 'mealmate',
-    openai_configured: Boolean(process.env.OPENAI_API_KEY),
+    openai_configured: isOpenAiConfigured(),
   });
 });
 
 app.get('/api/meta', attachSession, (_req, res) => {
   res.json({
-    openai_configured: Boolean(process.env.OPENAI_API_KEY),
+    openai_configured: isOpenAiConfigured(),
     model: process.env.OPENAI_MODEL || 'gpt-4.1-mini',
     examples: examples.examples.map((e) => ({
       id: e.id,
@@ -228,6 +229,17 @@ app.use((err, _req, res, _next) => {
 if (require.main === module) {
   app.listen(PORT, HOST, () => {
     console.log(`MealMate listening on http://${HOST}:${PORT}`);
+    if (envInfo.error) {
+      console.warn(`Could not read .env (${envInfo.path}): ${envInfo.error}`);
+    } else if (!envInfo.exists) {
+      console.log('No .env file found (optional). Live AI needs OPENAI_API_KEY.');
+    } else if (!isOpenAiConfigured()) {
+      console.log(
+        '.env loaded but OPENAI_API_KEY is empty. Live AI disabled; Saved Example still works.'
+      );
+    } else {
+      console.log('OPENAI_API_KEY configured — Live AI enabled.');
+    }
   });
 }
 

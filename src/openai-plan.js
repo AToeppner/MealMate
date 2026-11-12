@@ -43,9 +43,11 @@ const ALLOWED_UNITS = new Set([
 ]);
 
 function getClient() {
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKey = (process.env.OPENAI_API_KEY || '').trim();
   if (!apiKey) {
-    const err = new Error('OPENAI_API_KEY is not configured. Use Saved Example mode or add a key to .env.');
+    const err = new Error(
+      'OPENAI_API_KEY is not configured. Add it to the project-root .env (see .env.example), restart the server, or use Saved Example mode.'
+    );
     err.code = 'NO_API_KEY';
     throw err;
   }
