@@ -1,0 +1,713 @@
+{
+  "schema_version": 1,
+  "notes": "Apply optional stock overrides to a fresh catalog copy per case. Apply actions in order, then attempt approval. Compare proposed priced cart lines as an unordered set before approval, including valid-priced pending substitutions.",
+  "cases": [
+    {
+      "id": "vodka-initial",
+      "example_id": "vodka-pasta",
+      "actions": [],
+      "expected": {
+        "cart_lines": [
+          {
+            "product_id": "P095",
+            "packages": 1
+          },
+          {
+            "product_id": "P029",
+            "packages": 1
+          },
+          {
+            "product_id": "P126",
+            "packages": 1
+          },
+          {
+            "product_id": "P064",
+            "packages": 1
+          },
+          {
+            "product_id": "P026",
+            "packages": 1
+          },
+          {
+            "product_id": "P127",
+            "packages": 1
+          },
+          {
+            "product_id": "P083",
+            "packages": 1
+          },
+          {
+            "product_id": "P007",
+            "packages": 1
+          },
+          {
+            "product_id": "P011",
+            "packages": 1
+          },
+          {
+            "product_id": "P054",
+            "packages": 1
+          },
+          {
+            "product_id": "P128",
+            "packages": 1
+          }
+        ],
+        "total_cents": 3209,
+        "budget_remaining_cents": -209,
+        "approval": "requires_budget_acknowledgment",
+        "missing_ingredient_ids": [],
+        "pantry_ingredient_ids": [],
+        "issues": [],
+        "cheaper_swaps": [
+          {
+            "ingredient_id": "i9",
+            "product_id": "P129",
+            "savings_cents": 150
+          }
+        ]
+      }
+    },
+    {
+      "id": "vodka-override",
+      "example_id": "vodka-pasta",
+      "actions": [
+        {
+          "action": "acknowledge_budget"
+        }
+      ],
+      "expected": {
+        "cart_lines": [
+          {
+            "product_id": "P095",
+            "packages": 1
+          },
+          {
+            "product_id": "P029",
+            "packages": 1
+          },
+          {
+            "product_id": "P126",
+            "packages": 1
+          },
+          {
+            "product_id": "P064",
+            "packages": 1
+          },
+          {
+            "product_id": "P026",
+            "packages": 1
+          },
+          {
+            "product_id": "P127",
+            "packages": 1
+          },
+          {
+            "product_id": "P083",
+            "packages": 1
+          },
+          {
+            "product_id": "P007",
+            "packages": 1
+          },
+          {
+            "product_id": "P011",
+            "packages": 1
+          },
+          {
+            "product_id": "P054",
+            "packages": 1
+          },
+          {
+            "product_id": "P128",
+            "packages": 1
+          }
+        ],
+        "total_cents": 3209,
+        "budget_remaining_cents": -209,
+        "approval": "approved",
+        "missing_ingredient_ids": [],
+        "pantry_ingredient_ids": [],
+        "issues": []
+      }
+    },
+    {
+      "id": "vodka-pantry",
+      "example_id": "vodka-pasta",
+      "actions": [
+        {
+          "action": "toggle_pantry",
+          "ingredient_id": "i2"
+        }
+      ],
+      "expected": {
+        "cart_lines": [
+          {
+            "product_id": "P095",
+            "packages": 1
+          },
+          {
+            "product_id": "P126",
+            "packages": 1
+          },
+          {
+            "product_id": "P064",
+            "packages": 1
+          },
+          {
+            "product_id": "P026",
+            "packages": 1
+          },
+          {
+            "product_id": "P127",
+            "packages": 1
+          },
+          {
+            "product_id": "P083",
+            "packages": 1
+          },
+          {
+            "product_id": "P007",
+            "packages": 1
+          },
+          {
+            "product_id": "P011",
+            "packages": 1
+          },
+          {
+            "product_id": "P054",
+            "packages": 1
+          },
+          {
+            "product_id": "P128",
+            "packages": 1
+          }
+        ],
+        "total_cents": 2760,
+        "budget_remaining_cents": 240,
+        "approval": "approved",
+        "missing_ingredient_ids": [],
+        "pantry_ingredient_ids": [
+          "i2"
+        ],
+        "issues": []
+      }
+    },
+    {
+      "id": "vodka-restore",
+      "example_id": "vodka-pasta",
+      "actions": [
+        {
+          "action": "toggle_pantry",
+          "ingredient_id": "i2"
+        },
+        {
+          "action": "toggle_pantry",
+          "ingredient_id": "i2"
+        }
+      ],
+      "expected": {
+        "cart_lines": [
+          {
+            "product_id": "P095",
+            "packages": 1
+          },
+          {
+            "product_id": "P029",
+            "packages": 1
+          },
+          {
+            "product_id": "P126",
+            "packages": 1
+          },
+          {
+            "product_id": "P064",
+            "packages": 1
+          },
+          {
+            "product_id": "P026",
+            "packages": 1
+          },
+          {
+            "product_id": "P127",
+            "packages": 1
+          },
+          {
+            "product_id": "P083",
+            "packages": 1
+          },
+          {
+            "product_id": "P007",
+            "packages": 1
+          },
+          {
+            "product_id": "P011",
+            "packages": 1
+          },
+          {
+            "product_id": "P054",
+            "packages": 1
+          },
+          {
+            "product_id": "P128",
+            "packages": 1
+          }
+        ],
+        "total_cents": 3209,
+        "budget_remaining_cents": -209,
+        "approval": "requires_budget_acknowledgment",
+        "missing_ingredient_ids": [],
+        "pantry_ingredient_ids": [],
+        "issues": []
+      }
+    },
+    {
+      "id": "vodka-swap-pending",
+      "example_id": "vodka-pasta",
+      "actions": [
+        {
+          "action": "swap",
+          "ingredient_id": "i9",
+          "product_id": "P129"
+        }
+      ],
+      "expected": {
+        "cart_lines": [
+          {
+            "product_id": "P095",
+            "packages": 1
+          },
+          {
+            "product_id": "P029",
+            "packages": 1
+          },
+          {
+            "product_id": "P126",
+            "packages": 1
+          },
+          {
+            "product_id": "P064",
+            "packages": 1
+          },
+          {
+            "product_id": "P026",
+            "packages": 1
+          },
+          {
+            "product_id": "P127",
+            "packages": 1
+          },
+          {
+            "product_id": "P083",
+            "packages": 1
+          },
+          {
+            "product_id": "P007",
+            "packages": 1
+          },
+          {
+            "product_id": "P129",
+            "packages": 1
+          },
+          {
+            "product_id": "P054",
+            "packages": 1
+          },
+          {
+            "product_id": "P128",
+            "packages": 1
+          }
+        ],
+        "total_cents": 3059,
+        "budget_remaining_cents": -59,
+        "approval": "blocked",
+        "missing_ingredient_ids": [],
+        "pantry_ingredient_ids": [],
+        "issues": [
+          {
+            "ingredient_id": "i9",
+            "code": "substitution"
+          }
+        ]
+      }
+    },
+    {
+      "id": "vodka-swap-confirmed",
+      "example_id": "vodka-pasta",
+      "actions": [
+        {
+          "action": "swap",
+          "ingredient_id": "i9",
+          "product_id": "P129"
+        },
+        {
+          "action": "confirm",
+          "ingredient_id": "i9"
+        },
+        {
+          "action": "toggle_pantry",
+          "ingredient_id": "i2"
+        }
+      ],
+      "expected": {
+        "cart_lines": [
+          {
+            "product_id": "P095",
+            "packages": 1
+          },
+          {
+            "product_id": "P126",
+            "packages": 1
+          },
+          {
+            "product_id": "P064",
+            "packages": 1
+          },
+          {
+            "product_id": "P026",
+            "packages": 1
+          },
+          {
+            "product_id": "P127",
+            "packages": 1
+          },
+          {
+            "product_id": "P083",
+            "packages": 1
+          },
+          {
+            "product_id": "P007",
+            "packages": 1
+          },
+          {
+            "product_id": "P129",
+            "packages": 1
+          },
+          {
+            "product_id": "P054",
+            "packages": 1
+          },
+          {
+            "product_id": "P128",
+            "packages": 1
+          }
+        ],
+        "total_cents": 2610,
+        "budget_remaining_cents": 390,
+        "approval": "approved",
+        "missing_ingredient_ids": [],
+        "pantry_ingredient_ids": [
+          "i2"
+        ],
+        "issues": []
+      }
+    },
+    {
+      "id": "vodka-no-unavailable-swap",
+      "example_id": "vodka-pasta",
+      "actions": [],
+      "expected": {
+        "cart_lines": [
+          {
+            "product_id": "P095",
+            "packages": 1
+          },
+          {
+            "product_id": "P029",
+            "packages": 1
+          },
+          {
+            "product_id": "P126",
+            "packages": 1
+          },
+          {
+            "product_id": "P064",
+            "packages": 1
+          },
+          {
+            "product_id": "P026",
+            "packages": 1
+          },
+          {
+            "product_id": "P127",
+            "packages": 1
+          },
+          {
+            "product_id": "P083",
+            "packages": 1
+          },
+          {
+            "product_id": "P007",
+            "packages": 1
+          },
+          {
+            "product_id": "P011",
+            "packages": 1
+          },
+          {
+            "product_id": "P054",
+            "packages": 1
+          },
+          {
+            "product_id": "P128",
+            "packages": 1
+          }
+        ],
+        "total_cents": 3209,
+        "budget_remaining_cents": -209,
+        "approval": "requires_budget_acknowledgment",
+        "missing_ingredient_ids": [],
+        "pantry_ingredient_ids": [],
+        "issues": [],
+        "cheaper_swaps": []
+      },
+      "stock_overrides": {
+        "P129": 0
+      }
+    },
+    {
+      "id": "tacos",
+      "example_id": "beef-tacos",
+      "actions": [
+        {
+          "action": "toggle_pantry",
+          "ingredient_id": "i3"
+        }
+      ],
+      "expected": {
+        "cart_lines": [
+          {
+            "product_id": "P001",
+            "packages": 1
+          },
+          {
+            "product_id": "P002",
+            "packages": 1
+          },
+          {
+            "product_id": "P005",
+            "packages": 1
+          },
+          {
+            "product_id": "P045",
+            "packages": 1
+          },
+          {
+            "product_id": "P004",
+            "packages": 1
+          }
+        ],
+        "total_cents": 1445,
+        "budget_remaining_cents": 55,
+        "approval": "approved",
+        "missing_ingredient_ids": [],
+        "pantry_ingredient_ids": [
+          "i3"
+        ],
+        "issues": []
+      }
+    },
+    {
+      "id": "vegetarian",
+      "example_id": "black-bean-bowls",
+      "actions": [],
+      "expected": {
+        "cart_lines": [
+          {
+            "product_id": "P033",
+            "packages": 1
+          },
+          {
+            "product_id": "P032",
+            "packages": 2
+          },
+          {
+            "product_id": "P072",
+            "packages": 1
+          },
+          {
+            "product_id": "P042",
+            "packages": 2
+          },
+          {
+            "product_id": "P031",
+            "packages": 2
+          },
+          {
+            "product_id": "P005",
+            "packages": 1
+          }
+        ],
+        "total_cents": 1253,
+        "budget_remaining_cents": 47,
+        "approval": "approved",
+        "missing_ingredient_ids": [],
+        "pantry_ingredient_ids": [],
+        "issues": []
+      }
+    },
+    {
+      "id": "breakfast",
+      "example_id": "breakfast",
+      "actions": [],
+      "expected": {
+        "cart_lines": [
+          {
+            "product_id": "P020",
+            "packages": 1
+          },
+          {
+            "product_id": "P035",
+            "packages": 1
+          },
+          {
+            "product_id": "P091",
+            "packages": 1
+          },
+          {
+            "product_id": "P029",
+            "packages": 1
+          }
+        ],
+        "total_cents": 1346,
+        "budget_remaining_cents": -346,
+        "approval": "requires_budget_acknowledgment",
+        "missing_ingredient_ids": [],
+        "pantry_ingredient_ids": [],
+        "issues": []
+      }
+    },
+    {
+      "id": "package-rounding",
+      "example_id": "chicken-rice",
+      "actions": [],
+      "expected": {
+        "cart_lines": [
+          {
+            "product_id": "P008",
+            "packages": 2
+          },
+          {
+            "product_id": "P036",
+            "packages": 1
+          },
+          {
+            "product_id": "P033",
+            "packages": 1
+          },
+          {
+            "product_id": "P107",
+            "packages": 1
+          }
+        ],
+        "total_cents": 2235,
+        "budget_remaining_cents": -235,
+        "approval": "requires_budget_acknowledgment",
+        "missing_ingredient_ids": [],
+        "pantry_ingredient_ids": [],
+        "issues": []
+      }
+    },
+    {
+      "id": "insufficient-stock",
+      "example_id": "chicken-rice",
+      "actions": [],
+      "expected": {
+        "cart_lines": [
+          {
+            "product_id": "P036",
+            "packages": 1
+          },
+          {
+            "product_id": "P033",
+            "packages": 1
+          },
+          {
+            "product_id": "P107",
+            "packages": 1
+          }
+        ],
+        "total_cents": 737,
+        "budget_remaining_cents": 1263,
+        "approval": "blocked",
+        "missing_ingredient_ids": [],
+        "pantry_ingredient_ids": [],
+        "issues": [
+          {
+            "ingredient_id": "i1",
+            "code": "insufficient_stock"
+          }
+        ]
+      },
+      "stock_overrides": {
+        "P008": 1
+      }
+    },
+    {
+      "id": "missing-match",
+      "example_id": "partial",
+      "actions": [],
+      "expected": {
+        "cart_lines": [
+          {
+            "product_id": "P098",
+            "packages": 1
+          },
+          {
+            "product_id": "P080",
+            "packages": 1
+          },
+          {
+            "product_id": "P063",
+            "packages": 1
+          }
+        ],
+        "total_cents": 727,
+        "budget_remaining_cents": 473,
+        "approval": "blocked",
+        "missing_ingredient_ids": [],
+        "pantry_ingredient_ids": [],
+        "issues": [
+          {
+            "ingredient_id": "i3",
+            "code": "no_match"
+          }
+        ]
+      }
+    },
+    {
+      "id": "explicit-skip",
+      "example_id": "partial",
+      "actions": [
+        {
+          "action": "skip",
+          "ingredient_id": "i3"
+        }
+      ],
+      "expected": {
+        "cart_lines": [
+          {
+            "product_id": "P098",
+            "packages": 1
+          },
+          {
+            "product_id": "P080",
+            "packages": 1
+          },
+          {
+            "product_id": "P063",
+            "packages": 1
+          }
+        ],
+        "total_cents": 727,
+        "budget_remaining_cents": 473,
+        "approval": "approved_incomplete",
+        "missing_ingredient_ids": [
+          "i3"
+        ],
+        "pantry_ingredient_ids": [],
+        "issues": []
+      }
+    }
+  ]
+}
