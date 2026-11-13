@@ -1,8 +1,13 @@
 'use strict';
 
-require('dotenv').config();
-
 const path = require('path');
+// Load repo-root .env explicitly. override:true so an empty shell OPENAI_API_KEY
+// cannot block the value from .env (common on Windows).
+require('dotenv').config({
+  path: path.join(__dirname, '..', '.env'),
+  override: true,
+});
+
 const express = require('express');
 const cookieParser = require('cookie-parser');
 
