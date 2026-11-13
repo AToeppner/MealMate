@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MealMate</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="top">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <div>
+            <p class="brand-name">MealMate</p>
+            <p class="brand-tag">Meal idea → grocery cart</p>
+          </div>
+        </div>
+        <p id="mode-badge" class="mode-badge" hidden></p>
+      </header>
+
+      <main>
+        <section id="plan-section" class="panel" aria-labelledby="plan-title">
+          <h1 id="plan-title">Plan your meal</h1>
+          <p class="lede">
+            Describe a meal, set servings and an optional budget, then generate a cart from simulated store inventory.
+          </p>
+
+          <form id="plan-form" class="plan-form">
+            <label class="field">
+              <span>Meal name or description</span>
+              <textarea
+                id="meal"
+                name="meal"
+                rows="3"
+                required
+                placeholder="e.g. sun-dried tomato vodka pasta"
+              ></textarea>
+            </label>
+
+            <div class="row-2">
+              <label class="field">
+                <span>Servings (1–10)</span>
+                <input id="servings" name="servings" type="number" min="1" max="10" step="1" value="4" required />
+              </label>
+              <label class="field">
+                <span>Budget USD (optional, 0 ok)</span>
+                <input id="budget" name="budget" type="number" min="0" step="0.01" placeholder="30.00" />
+              </label>
+            </div>
+
+            <div class="actions">
+              <button type="button" id="fill-demo" class="btn ghost">Fill vodka pasta demo</button>
+              <button type="submit" id="generate-live" class="btn primary">Generate with Live AI</button>
+              <button type="button" id="load-example" class="btn secondary">Use Saved Example</button>
+            </div>
+            <p id="plan-error" class="error" role="alert" hidden></p>
+            <p id="ai-hint" class="hint"></p>
+          </form>
+        </section>
+
+        <section id="review-section" class="panel" hidden aria-labelledby="review-title">
+          <div class="review-head">
+            <div>
+              <h2 id="review-title">Review &amp; match</h2>
+              <p id="review-summary" class="lede"></p>
+            </div>
+            <button type="button" id="new-plan" class="btn ghost">New plan</button>
+          </div>
+
+          <div id="budget-bar" class="budget-bar" hidden></div>
+          <div id="swap-offers" class="swap-offers" hidden></div>
+          <p id="partial-note" class="hint" hidden></p>
+
+          <ul id="ingredient-list" class="ingredient-list"></ul>
+
+          <div class="cart-box">
+            <h3>Draft cart</h3>
+            <ul id="cart-lines" class="cart-lines"></ul>
+            <p id="cart-total" class="cart-total"></p>
+          </div>
+
+          <div class="approve-box">
+            <label id="budget-ack-label" class="ack" hidden>
+              <input type="checkbox" id="budget-ack" />
+              <span id="budget-ack-text"></span>
+            </label>
+            <button type="button" id="approve-btn" class="btn primary">Approve cart</button>
+            <p id="approve-msg" class="hint" role="status"></p>
+          </div>
+
+          <div id="approved-view" class="approved-view" hidden></div>
+        </section>
+      </main>
+
+      <footer class="foot">
+        <p>Simulated inventory for demo use. Prices and stock are not live store data.</p>
+      </footer>
+    </div>
+    <script src="/app.js"></script>
+  </body>
+</html>

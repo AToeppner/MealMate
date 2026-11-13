@@ -1,0 +1,322 @@
+{
+  "schema_version": 1,
+  "source": "Curated offline fixtures",
+  "examples": [
+    {
+      "id": "vodka-pasta",
+      "meal": "Sun-dried tomato vodka pasta",
+      "servings": 4,
+      "budget_cents": 3000,
+      "ingredients": [
+        {
+          "id": "i1",
+          "ingredient": "penne pasta",
+          "quantity": 16,
+          "unit": "oz"
+        },
+        {
+          "id": "i2",
+          "ingredient": "unsalted butter",
+          "quantity": 1,
+          "unit": "oz"
+        },
+        {
+          "id": "i3",
+          "ingredient": "chili flakes",
+          "quantity": 0.5,
+          "unit": "tsp"
+        },
+        {
+          "id": "i4",
+          "ingredient": "fresh basil",
+          "quantity": 0.5,
+          "unit": "bunch"
+        },
+        {
+          "id": "i5",
+          "ingredient": "fresh garlic",
+          "quantity": 3,
+          "unit": "clove"
+        },
+        {
+          "id": "i6",
+          "ingredient": "sun-dried tomatoes",
+          "quantity": 2,
+          "unit": "oz"
+        },
+        {
+          "id": "i7",
+          "ingredient": "heavy cream",
+          "quantity": 0.75,
+          "unit": "cup"
+        },
+        {
+          "id": "i8",
+          "ingredient": "marinara sauce",
+          "quantity": 16,
+          "unit": "oz"
+        },
+        {
+          "id": "i9",
+          "ingredient": "parmesan cheese",
+          "quantity": 2,
+          "unit": "oz"
+        },
+        {
+          "id": "i10",
+          "ingredient": "black pepper",
+          "quantity": 0.5,
+          "unit": "tsp"
+        },
+        {
+          "id": "i11",
+          "ingredient": "vodka",
+          "quantity": 50,
+          "unit": "ml"
+        }
+      ]
+    },
+    {
+      "id": "beef-tacos",
+      "meal": "Beef tacos",
+      "servings": 3,
+      "budget_cents": 1500,
+      "ingredients": [
+        {
+          "id": "i1",
+          "ingredient": "ground beef",
+          "quantity": 0.75,
+          "unit": "lb"
+        },
+        {
+          "id": "i2",
+          "ingredient": "taco shells",
+          "quantity": 9,
+          "unit": "each"
+        },
+        {
+          "id": "i3",
+          "ingredient": "shredded cheddar cheese",
+          "quantity": 4,
+          "unit": "oz"
+        },
+        {
+          "id": "i4",
+          "ingredient": "salsa",
+          "quantity": 0.5,
+          "unit": "cup"
+        },
+        {
+          "id": "i5",
+          "ingredient": "taco seasoning",
+          "quantity": 1,
+          "unit": "oz"
+        },
+        {
+          "id": "i6",
+          "ingredient": "sour cream",
+          "quantity": 0.5,
+          "unit": "cup"
+        }
+      ]
+    },
+    {
+      "id": "black-bean-bowls",
+      "meal": "Vegetarian black bean rice bowls",
+      "servings": 4,
+      "budget_cents": 1300,
+      "ingredients": [
+        {
+          "id": "i1",
+          "ingredient": "white rice",
+          "quantity": 12,
+          "unit": "oz"
+        },
+        {
+          "id": "i2",
+          "ingredient": "black beans",
+          "quantity": 30,
+          "unit": "oz"
+        },
+        {
+          "id": "i3",
+          "ingredient": "frozen corn",
+          "quantity": 8,
+          "unit": "oz"
+        },
+        {
+          "id": "i4",
+          "ingredient": "lime",
+          "quantity": 2,
+          "unit": "each"
+        },
+        {
+          "id": "i5",
+          "ingredient": "avocado",
+          "quantity": 2,
+          "unit": "each"
+        },
+        {
+          "id": "i6",
+          "ingredient": "salsa",
+          "quantity": 0.5,
+          "unit": "cup"
+        }
+      ]
+    },
+    {
+      "id": "breakfast",
+      "meal": "Egg and spinach toast",
+      "servings": 2,
+      "budget_cents": 1000,
+      "ingredients": [
+        {
+          "id": "i1",
+          "ingredient": "large eggs",
+          "quantity": 4,
+          "unit": "each"
+        },
+        {
+          "id": "i2",
+          "ingredient": "spinach",
+          "quantity": 2,
+          "unit": "oz"
+        },
+        {
+          "id": "i3",
+          "ingredient": "bread loaf",
+          "quantity": 4,
+          "unit": "slices"
+        },
+        {
+          "id": "i4",
+          "ingredient": "unsalted butter",
+          "quantity": 0.5,
+          "unit": "oz"
+        }
+      ]
+    },
+    {
+      "id": "chicken-rice",
+      "meal": "Chicken and broccoli rice bowls",
+      "servings": 5,
+      "budget_cents": 2000,
+      "ingredients": [
+        {
+          "id": "i1",
+          "ingredient": "chicken breast",
+          "quantity": 2,
+          "unit": "lb"
+        },
+        {
+          "id": "i2",
+          "ingredient": "broccoli",
+          "quantity": 12,
+          "unit": "oz"
+        },
+        {
+          "id": "i3",
+          "ingredient": "white rice",
+          "quantity": 12,
+          "unit": "oz"
+        },
+        {
+          "id": "i4",
+          "ingredient": "soy sauce",
+          "quantity": 2,
+          "unit": "fl oz"
+        }
+      ]
+    },
+    {
+      "id": "partial",
+      "meal": "Miso tofu udon",
+      "servings": 2,
+      "budget_cents": 1200,
+      "ingredients": [
+        {
+          "id": "i1",
+          "ingredient": "udon noodles",
+          "quantity": 10,
+          "unit": "oz"
+        },
+        {
+          "id": "i2",
+          "ingredient": "firm tofu",
+          "quantity": 10,
+          "unit": "oz"
+        },
+        {
+          "id": "i3",
+          "ingredient": "white miso paste",
+          "quantity": 1,
+          "unit": "oz"
+        },
+        {
+          "id": "i4",
+          "ingredient": "green onions",
+          "quantity": 0.25,
+          "unit": "bunch"
+        }
+      ]
+    },
+    {
+      "id": "spaghetti",
+      "meal": "Spaghetti marinara",
+      "servings": 2,
+      "budget_cents": 1000,
+      "ingredients": [
+        {
+          "id": "i1",
+          "ingredient": "spaghetti pasta",
+          "quantity": 8,
+          "unit": "oz"
+        },
+        {
+          "id": "i2",
+          "ingredient": "marinara sauce",
+          "quantity": 12,
+          "unit": "oz"
+        },
+        {
+          "id": "i3",
+          "ingredient": "parmesan cheese",
+          "quantity": 1,
+          "unit": "oz"
+        }
+      ]
+    },
+    {
+      "id": "pancakes",
+      "meal": "Pancakes and eggs",
+      "servings": 4,
+      "budget_cents": 1700,
+      "ingredients": [
+        {
+          "id": "i1",
+          "ingredient": "pancake mix",
+          "quantity": 12,
+          "unit": "oz"
+        },
+        {
+          "id": "i2",
+          "ingredient": "whole milk",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "id": "i3",
+          "ingredient": "large eggs",
+          "quantity": 4,
+          "unit": "each"
+        },
+        {
+          "id": "i4",
+          "ingredient": "maple syrup",
+          "quantity": 2,
+          "unit": "fl oz"
+        }
+      ]
+    }
+  ]
+}

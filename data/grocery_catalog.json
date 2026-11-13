@@ -1,0 +1,1972 @@
+{
+  "schema_version": 1,
+  "currency": "USD",
+  "simulated": true,
+  "products": [
+    {
+      "product_name": "Ground Beef 80/20",
+      "category": "Meat",
+      "package_size": 1,
+      "unit": "lb",
+      "price": 5.99,
+      "stock": 15,
+      "product_id": "P001",
+      "aliases": [
+        "ground beef",
+        "beef mince",
+        "minced beef"
+      ],
+      "price_cents": 599,
+      "count_unit": null
+    },
+    {
+      "product_name": "Taco Shells",
+      "category": "Pantry",
+      "package_size": 12,
+      "unit": "pack",
+      "price": 2.49,
+      "stock": 20,
+      "product_id": "P002",
+      "aliases": [
+        "taco shells",
+        "taco shell",
+        "hard taco shells"
+      ],
+      "price_cents": 249,
+      "count_unit": "each"
+    },
+    {
+      "product_name": "Shredded Cheddar Cheese",
+      "category": "Dairy",
+      "package_size": 8,
+      "unit": "oz",
+      "price": 3.29,
+      "stock": 25,
+      "product_id": "P003",
+      "aliases": [
+        "shredded cheddar cheese",
+        "cheddar cheese",
+        "shredded cheese",
+        "cheddar"
+      ],
+      "price_cents": 329,
+      "count_unit": null
+    },
+    {
+      "product_name": "Sour Cream",
+      "category": "Dairy",
+      "package_size": 16,
+      "unit": "oz",
+      "price": 1.99,
+      "stock": 18,
+      "product_id": "P004",
+      "aliases": [
+        "sour cream"
+      ],
+      "approx_cups_per_package": 2.0,
+      "conversion_note": "Mock-store estimate: 16 oz container is approximately 2 cups; confirm real product labeling.",
+      "price_cents": 199,
+      "count_unit": null,
+      "explicit_demo_conversions": {
+        "cup": 2.0
+      }
+    },
+    {
+      "product_name": "Salsa Mild",
+      "category": "Pantry",
+      "package_size": 16,
+      "unit": "oz",
+      "price": 2.99,
+      "stock": 12,
+      "product_id": "P005",
+      "aliases": [
+        "salsa",
+        "mild salsa"
+      ],
+      "approx_cups_per_package": 2.0,
+      "conversion_note": "Mock-store estimate: 16 oz container is approximately 2 cups; confirm real product labeling.",
+      "price_cents": 299,
+      "count_unit": null,
+      "explicit_demo_conversions": {
+        "cup": 2.0
+      }
+    },
+    {
+      "product_name": "Spaghetti Pasta",
+      "category": "Pantry",
+      "package_size": 16,
+      "unit": "oz",
+      "price": 1.49,
+      "stock": 30,
+      "product_id": "P006",
+      "aliases": [
+        "spaghetti",
+        "spaghetti pasta"
+      ],
+      "price_cents": 149,
+      "count_unit": null
+    },
+    {
+      "product_name": "Marinara Sauce",
+      "category": "Pantry",
+      "package_size": 24,
+      "unit": "oz",
+      "price": 3.49,
+      "stock": 22,
+      "product_id": "P007",
+      "aliases": [
+        "marinara sauce",
+        "tomato pasta sauce",
+        "pasta sauce"
+      ],
+      "price_cents": 349,
+      "count_unit": null
+    },
+    {
+      "product_name": "Chicken Breast",
+      "category": "Meat",
+      "package_size": 1.5,
+      "unit": "lb",
+      "price": 7.49,
+      "stock": 10,
+      "product_id": "P008",
+      "aliases": [
+        "chicken breast",
+        "boneless chicken breast",
+        "chicken breasts",
+        "chicken"
+      ],
+      "price_cents": 749,
+      "count_unit": null
+    },
+    {
+      "product_name": "Fettuccine Pasta",
+      "category": "Pantry",
+      "package_size": 16,
+      "unit": "oz",
+      "price": 1.69,
+      "stock": 15,
+      "product_id": "P009",
+      "aliases": [
+        "fettuccine",
+        "fettuccine pasta"
+      ],
+      "price_cents": 169,
+      "count_unit": null
+    },
+    {
+      "product_name": "Alfredo Sauce",
+      "category": "Pantry",
+      "package_size": 15,
+      "unit": "oz",
+      "price": 3.99,
+      "stock": 8,
+      "product_id": "P010",
+      "aliases": [
+        "alfredo sauce"
+      ],
+      "price_cents": 399,
+      "count_unit": null
+    },
+    {
+      "product_name": "Parmesan Cheese",
+      "category": "Dairy",
+      "package_size": 8,
+      "unit": "oz",
+      "price": 4.29,
+      "stock": 14,
+      "product_id": "P011",
+      "aliases": [
+        "parmesan cheese",
+        "parmesan"
+      ],
+      "price_cents": 429,
+      "count_unit": null
+    },
+    {
+      "product_name": "Burger Buns",
+      "category": "Bakery",
+      "package_size": 8,
+      "unit": "pack",
+      "price": 2.99,
+      "stock": 10,
+      "product_id": "P012",
+      "aliases": [
+        "burger buns",
+        "hamburger buns",
+        "buns"
+      ],
+      "price_cents": 299,
+      "count_unit": "each"
+    },
+    {
+      "product_name": "Beef Burger Patties",
+      "category": "Meat",
+      "package_size": 4,
+      "unit": "pack",
+      "price": 8.99,
+      "stock": 12,
+      "product_id": "P013",
+      "aliases": [
+        "beef burger patties",
+        "burger patties",
+        "beef patties"
+      ],
+      "price_cents": 899,
+      "count_unit": "each"
+    },
+    {
+      "product_name": "Sliced Cheddar Cheese",
+      "category": "Dairy",
+      "package_size": 10,
+      "unit": "slices",
+      "price": 3.79,
+      "stock": 20,
+      "product_id": "P014",
+      "aliases": [
+        "sliced cheddar cheese",
+        "cheddar slices",
+        "cheese slices"
+      ],
+      "price_cents": 379,
+      "count_unit": null
+    },
+    {
+      "product_name": "Romaine Lettuce",
+      "category": "Produce",
+      "package_size": 3,
+      "unit": "heads",
+      "price": 3.99,
+      "stock": 11,
+      "product_id": "P015",
+      "aliases": [
+        "romaine lettuce",
+        "romaine",
+        "lettuce"
+      ],
+      "price_cents": 399,
+      "count_unit": null
+    },
+    {
+      "product_name": "Cherry Tomatoes",
+      "category": "Produce",
+      "package_size": 10,
+      "unit": "oz",
+      "price": 2.99,
+      "stock": 16,
+      "product_id": "P016",
+      "aliases": [
+        "cherry tomatoes",
+        "cherry tomato"
+      ],
+      "price_cents": 299,
+      "count_unit": null
+    },
+    {
+      "product_name": "Cucumber",
+      "category": "Produce",
+      "package_size": 1,
+      "unit": "each",
+      "price": 0.89,
+      "stock": 30,
+      "product_id": "P017",
+      "aliases": [
+        "cucumber",
+        "cucumbers"
+      ],
+      "price_cents": 89,
+      "count_unit": "each"
+    },
+    {
+      "product_name": "Croutons",
+      "category": "Pantry",
+      "package_size": 5,
+      "unit": "oz",
+      "price": 1.99,
+      "stock": 25,
+      "product_id": "P018",
+      "aliases": [
+        "croutons"
+      ],
+      "price_cents": 199,
+      "count_unit": null
+    },
+    {
+      "product_name": "Caesar Dressing",
+      "category": "Pantry",
+      "package_size": 16,
+      "unit": "oz",
+      "price": 3.49,
+      "stock": 15,
+      "product_id": "P019",
+      "aliases": [
+        "caesar dressing"
+      ],
+      "price_cents": 349,
+      "count_unit": null
+    },
+    {
+      "product_name": "Large Eggs",
+      "category": "Dairy",
+      "package_size": 12,
+      "unit": "eggs",
+      "price": 2.99,
+      "stock": 40,
+      "product_id": "P020",
+      "aliases": [
+        "eggs",
+        "egg",
+        "large eggs"
+      ],
+      "price_cents": 299,
+      "count_unit": "each"
+    },
+    {
+      "product_name": "Sliced Bacon",
+      "category": "Meat",
+      "package_size": 16,
+      "unit": "oz",
+      "price": 5.99,
+      "stock": 18,
+      "product_id": "P021",
+      "aliases": [
+        "bacon",
+        "sliced bacon"
+      ],
+      "price_cents": 599,
+      "count_unit": null
+    },
+    {
+      "product_name": "Whole Milk",
+      "category": "Dairy",
+      "package_size": 128,
+      "unit": "fl oz",
+      "price": 3.89,
+      "stock": 15,
+      "product_id": "P022",
+      "aliases": [
+        "milk",
+        "whole milk"
+      ],
+      "price_cents": 389,
+      "count_unit": null
+    },
+    {
+      "product_name": "Pancake Mix",
+      "category": "Pantry",
+      "package_size": 32,
+      "unit": "oz",
+      "price": 2.79,
+      "stock": 20,
+      "product_id": "P023",
+      "aliases": [
+        "pancake mix"
+      ],
+      "price_cents": 279,
+      "count_unit": null
+    },
+    {
+      "product_name": "Maple Syrup",
+      "category": "Pantry",
+      "package_size": 12,
+      "unit": "fl oz",
+      "price": 4.99,
+      "stock": 12,
+      "product_id": "P024",
+      "aliases": [
+        "maple syrup",
+        "syrup"
+      ],
+      "price_cents": 499,
+      "count_unit": null
+    },
+    {
+      "product_name": "White Onions",
+      "category": "Produce",
+      "package_size": 3,
+      "unit": "lb",
+      "price": 2.49,
+      "stock": 25,
+      "product_id": "P025",
+      "aliases": [
+        "white onions",
+        "white onion bag",
+        "bag of onions",
+        "3 lb onions"
+      ],
+      "price_cents": 249,
+      "count_unit": null
+    },
+    {
+      "product_name": "Fresh Garlic",
+      "category": "Produce",
+      "package_size": 3,
+      "unit": "bulbs",
+      "price": 1.49,
+      "stock": 45,
+      "product_id": "P026",
+      "aliases": [
+        "garlic",
+        "fresh garlic",
+        "garlic bulb",
+        "garlic bulbs"
+      ],
+      "price_cents": 149,
+      "count_unit": null,
+      "explicit_demo_conversions": {
+        "clove": 30
+      }
+    },
+    {
+      "product_name": "Olive Oil",
+      "category": "Pantry",
+      "package_size": 17,
+      "unit": "fl oz",
+      "price": 7.99,
+      "stock": 10,
+      "product_id": "P027",
+      "aliases": [
+        "olive oil"
+      ],
+      "price_cents": 799,
+      "count_unit": null
+    },
+    {
+      "product_name": "Salt & Pepper Set",
+      "category": "Pantry",
+      "package_size": 2,
+      "unit": "pack",
+      "price": 3.49,
+      "stock": 35,
+      "product_id": "P028",
+      "aliases": [
+        "salt and pepper",
+        "salt & pepper"
+      ],
+      "price_cents": 349,
+      "count_unit": null
+    },
+    {
+      "product_name": "Unsalted Butter",
+      "category": "Dairy",
+      "package_size": 16,
+      "unit": "oz",
+      "price": 4.49,
+      "stock": 24,
+      "product_id": "P029",
+      "aliases": [
+        "butter",
+        "unsalted butter"
+      ],
+      "price_cents": 449,
+      "count_unit": null
+    },
+    {
+      "product_name": "French Baguette",
+      "category": "Bakery",
+      "package_size": 1,
+      "unit": "each",
+      "price": 2.29,
+      "stock": 8,
+      "product_id": "P030",
+      "aliases": [
+        "baguette",
+        "french baguette"
+      ],
+      "price_cents": 229,
+      "count_unit": null
+    },
+    {
+      "product_name": "Avocado",
+      "category": "Produce",
+      "package_size": 1,
+      "unit": "each",
+      "price": 1.25,
+      "stock": 30,
+      "product_id": "P031",
+      "aliases": [
+        "avocado",
+        "avocados"
+      ],
+      "price_cents": 125,
+      "count_unit": "each"
+    },
+    {
+      "product_name": "Canned Black Beans",
+      "category": "Pantry",
+      "package_size": 15,
+      "unit": "oz",
+      "price": 0.99,
+      "stock": 40,
+      "product_id": "P032",
+      "aliases": [
+        "black beans",
+        "canned black beans"
+      ],
+      "price_cents": 99,
+      "count_unit": null
+    },
+    {
+      "product_name": "White Rice",
+      "category": "Pantry",
+      "package_size": 32,
+      "unit": "oz",
+      "price": 1.89,
+      "stock": 35,
+      "product_id": "P033",
+      "aliases": [
+        "rice",
+        "white rice"
+      ],
+      "price_cents": 189,
+      "count_unit": null
+    },
+    {
+      "product_name": "Bell Peppers",
+      "category": "Produce",
+      "package_size": 3,
+      "unit": "pack",
+      "price": 3.99,
+      "stock": 18,
+      "product_id": "P034",
+      "aliases": [
+        "bell pepper",
+        "bell peppers",
+        "sweet peppers"
+      ],
+      "price_cents": 399,
+      "count_unit": "each"
+    },
+    {
+      "product_name": "Spinach",
+      "category": "Produce",
+      "package_size": 8,
+      "unit": "oz",
+      "price": 2.99,
+      "stock": 15,
+      "product_id": "P035",
+      "aliases": [
+        "spinach"
+      ],
+      "price_cents": 299,
+      "count_unit": null
+    },
+    {
+      "product_name": "Broccoli",
+      "category": "Produce",
+      "package_size": 16,
+      "unit": "oz",
+      "price": 2.49,
+      "stock": 20,
+      "product_id": "P036",
+      "aliases": [
+        "broccoli"
+      ],
+      "price_cents": 249,
+      "count_unit": null
+    },
+    {
+      "product_name": "Mushrooms",
+      "category": "Produce",
+      "package_size": 8,
+      "unit": "oz",
+      "price": 2.29,
+      "stock": 14,
+      "product_id": "P037",
+      "aliases": [
+        "mushroom",
+        "mushrooms"
+      ],
+      "price_cents": 229,
+      "count_unit": null
+    },
+    {
+      "product_name": "Yellow Mustard",
+      "category": "Pantry",
+      "package_size": 14,
+      "unit": "oz",
+      "price": 1.79,
+      "stock": 25,
+      "product_id": "P038",
+      "aliases": [
+        "mustard",
+        "yellow mustard"
+      ],
+      "price_cents": 179,
+      "count_unit": null
+    },
+    {
+      "product_name": "Tomato Ketchup",
+      "category": "Pantry",
+      "package_size": 20,
+      "unit": "oz",
+      "price": 2.49,
+      "stock": 22,
+      "product_id": "P039",
+      "aliases": [
+        "ketchup",
+        "tomato ketchup"
+      ],
+      "price_cents": 249,
+      "count_unit": null
+    },
+    {
+      "product_name": "Mayonnaise",
+      "category": "Pantry",
+      "package_size": 30,
+      "unit": "fl oz",
+      "price": 3.99,
+      "stock": 16,
+      "product_id": "P040",
+      "aliases": [
+        "mayonnaise",
+        "mayo"
+      ],
+      "price_cents": 399,
+      "count_unit": null
+    },
+    {
+      "product_name": "Fresh Cilantro",
+      "category": "Produce",
+      "package_size": 1,
+      "unit": "bunch",
+      "price": 0.99,
+      "stock": 25,
+      "product_id": "P041",
+      "aliases": [
+        "cilantro",
+        "fresh cilantro"
+      ],
+      "price_cents": 99,
+      "count_unit": null
+    },
+    {
+      "product_name": "Lime",
+      "category": "Produce",
+      "package_size": 1,
+      "unit": "each",
+      "price": 0.49,
+      "stock": 50,
+      "product_id": "P042",
+      "aliases": [
+        "lime",
+        "limes"
+      ],
+      "price_cents": 49,
+      "count_unit": "each"
+    },
+    {
+      "product_name": "Corn Tortillas",
+      "category": "Grains & Bakery",
+      "package_size": 20,
+      "unit": "each",
+      "price": 2.99,
+      "stock": 30,
+      "product_id": "P043",
+      "aliases": [
+        "corn tortillas",
+        "corn tortilla",
+        "soft corn tortillas"
+      ],
+      "price_cents": 299,
+      "count_unit": "each"
+    },
+    {
+      "product_name": "Flour Tortillas",
+      "category": "Grains & Bakery",
+      "package_size": 10,
+      "unit": "each",
+      "price": 2.79,
+      "stock": 25,
+      "product_id": "P044",
+      "aliases": [
+        "flour tortillas",
+        "flour tortilla",
+        "soft tortillas",
+        "tortilla"
+      ],
+      "price_cents": 279,
+      "count_unit": "each"
+    },
+    {
+      "product_name": "Taco Seasoning",
+      "category": "Seasonings & Pantry",
+      "package_size": 1,
+      "unit": "oz",
+      "price": 0.99,
+      "stock": 40,
+      "product_id": "P045",
+      "aliases": [
+        "taco seasoning",
+        "taco spice mix",
+        "taco seasoning mix"
+      ],
+      "price_cents": 99,
+      "count_unit": null
+    },
+    {
+      "product_name": "Roma Tomato",
+      "category": "Produce",
+      "package_size": 1,
+      "unit": "each",
+      "price": 0.65,
+      "stock": 40,
+      "product_id": "P046",
+      "aliases": [
+        "tomato",
+        "tomatoes",
+        "roma tomato",
+        "roma tomatoes"
+      ],
+      "price_cents": 65,
+      "count_unit": "each"
+    },
+    {
+      "product_name": "Yellow Onion",
+      "category": "Produce",
+      "package_size": 1,
+      "unit": "each",
+      "price": 0.85,
+      "stock": 35,
+      "product_id": "P047",
+      "aliases": [
+        "onion",
+        "onions",
+        "yellow onion",
+        "yellow onions"
+      ],
+      "price_cents": 85,
+      "count_unit": "each"
+    },
+    {
+      "product_name": "Red Onion",
+      "category": "Produce",
+      "package_size": 1,
+      "unit": "each",
+      "price": 0.99,
+      "stock": 25,
+      "product_id": "P048",
+      "aliases": [
+        "red onion",
+        "red onions"
+      ],
+      "price_cents": 99,
+      "count_unit": "each"
+    },
+    {
+      "product_name": "Garlic Powder",
+      "category": "Seasonings & Pantry",
+      "package_size": 3,
+      "unit": "oz",
+      "price": 2.19,
+      "stock": 20,
+      "product_id": "P049",
+      "aliases": [
+        "garlic powder"
+      ],
+      "price_cents": 219,
+      "count_unit": null
+    },
+    {
+      "product_name": "Onion Powder",
+      "category": "Seasonings & Pantry",
+      "package_size": 3,
+      "unit": "oz",
+      "price": 2.09,
+      "stock": 20,
+      "product_id": "P050",
+      "aliases": [
+        "onion powder"
+      ],
+      "price_cents": 209,
+      "count_unit": null
+    },
+    {
+      "product_name": "Ground Cumin",
+      "category": "Seasonings & Pantry",
+      "package_size": 2,
+      "unit": "oz",
+      "price": 2.49,
+      "stock": 20,
+      "product_id": "P051",
+      "aliases": [
+        "cumin",
+        "ground cumin"
+      ],
+      "price_cents": 249,
+      "count_unit": null
+    },
+    {
+      "product_name": "Chili Powder",
+      "category": "Seasonings & Pantry",
+      "package_size": 2,
+      "unit": "oz",
+      "price": 2.49,
+      "stock": 20,
+      "product_id": "P052",
+      "aliases": [
+        "chili powder"
+      ],
+      "price_cents": 249,
+      "count_unit": null
+    },
+    {
+      "product_name": "Paprika",
+      "category": "Seasonings & Pantry",
+      "package_size": 2,
+      "unit": "oz",
+      "price": 2.59,
+      "stock": 20,
+      "product_id": "P053",
+      "aliases": [
+        "paprika",
+        "smoked paprika"
+      ],
+      "price_cents": 259,
+      "count_unit": null
+    },
+    {
+      "product_name": "Black Pepper",
+      "category": "Seasonings & Pantry",
+      "package_size": 3,
+      "unit": "oz",
+      "price": 2.39,
+      "stock": 35,
+      "product_id": "P054",
+      "aliases": [
+        "black pepper",
+        "ground pepper"
+      ],
+      "price_cents": 239,
+      "count_unit": null,
+      "explicit_demo_conversions": {
+        "tsp": 12
+      }
+    },
+    {
+      "product_name": "Table Salt",
+      "category": "Seasonings & Pantry",
+      "package_size": 26,
+      "unit": "oz",
+      "price": 1.49,
+      "stock": 40,
+      "product_id": "P055",
+      "aliases": [
+        "salt",
+        "table salt"
+      ],
+      "price_cents": 149,
+      "count_unit": null
+    },
+    {
+      "product_name": "Fresh Jalapeno",
+      "category": "Produce",
+      "package_size": 1,
+      "unit": "each",
+      "price": 0.49,
+      "stock": 40,
+      "product_id": "P056",
+      "aliases": [
+        "jalapeno",
+        "jalapeño",
+        "jalapeno pepper"
+      ],
+      "price_cents": 49,
+      "count_unit": "each"
+    },
+    {
+      "product_name": "Lemon",
+      "category": "Produce",
+      "package_size": 1,
+      "unit": "each",
+      "price": 0.69,
+      "stock": 40,
+      "product_id": "P057",
+      "aliases": [
+        "lemon",
+        "lemons"
+      ],
+      "price_cents": 69,
+      "count_unit": "each"
+    },
+    {
+      "product_name": "Carrots",
+      "category": "Produce",
+      "package_size": 1,
+      "unit": "lb",
+      "price": 1.69,
+      "stock": 35,
+      "product_id": "P058",
+      "aliases": [
+        "carrots",
+        "carrot"
+      ],
+      "price_cents": 169,
+      "count_unit": null
+    },
+    {
+      "product_name": "Celery",
+      "category": "Produce",
+      "package_size": 1,
+      "unit": "bunch",
+      "price": 1.79,
+      "stock": 20,
+      "product_id": "P059",
+      "aliases": [
+        "celery",
+        "celery bunch"
+      ],
+      "price_cents": 179,
+      "count_unit": null
+    },
+    {
+      "product_name": "Russet Potatoes",
+      "category": "Produce",
+      "package_size": 3,
+      "unit": "lb",
+      "price": 3.29,
+      "stock": 25,
+      "product_id": "P060",
+      "aliases": [
+        "potato",
+        "potatoes",
+        "russet potatoes"
+      ],
+      "price_cents": 329,
+      "count_unit": null
+    },
+    {
+      "product_name": "Sweet Potato",
+      "category": "Produce",
+      "package_size": 1,
+      "unit": "each",
+      "price": 1.29,
+      "stock": 25,
+      "product_id": "P061",
+      "aliases": [
+        "sweet potato",
+        "sweet potatoes"
+      ],
+      "price_cents": 129,
+      "count_unit": "each"
+    },
+    {
+      "product_name": "Green Cabbage",
+      "category": "Produce",
+      "package_size": 1,
+      "unit": "head",
+      "price": 2.39,
+      "stock": 20,
+      "product_id": "P062",
+      "aliases": [
+        "cabbage",
+        "green cabbage"
+      ],
+      "price_cents": 239,
+      "count_unit": null
+    },
+    {
+      "product_name": "Green Onions",
+      "category": "Produce",
+      "package_size": 1,
+      "unit": "bunch",
+      "price": 0.99,
+      "stock": 25,
+      "product_id": "P063",
+      "aliases": [
+        "green onions",
+        "scallions",
+        "scallion"
+      ],
+      "price_cents": 99,
+      "count_unit": null
+    },
+    {
+      "product_name": "Fresh Basil",
+      "category": "Produce",
+      "package_size": 1,
+      "unit": "bunch",
+      "price": 1.79,
+      "stock": 15,
+      "product_id": "P064",
+      "aliases": [
+        "basil",
+        "fresh basil"
+      ],
+      "price_cents": 179,
+      "count_unit": null
+    },
+    {
+      "product_name": "Fresh Parsley",
+      "category": "Produce",
+      "package_size": 1,
+      "unit": "bunch",
+      "price": 1.39,
+      "stock": 18,
+      "product_id": "P065",
+      "aliases": [
+        "parsley",
+        "fresh parsley"
+      ],
+      "price_cents": 139,
+      "count_unit": null
+    },
+    {
+      "product_name": "Fresh Ginger",
+      "category": "Produce",
+      "package_size": 4,
+      "unit": "oz",
+      "price": 1.99,
+      "stock": 20,
+      "product_id": "P066",
+      "aliases": [
+        "ginger",
+        "fresh ginger"
+      ],
+      "price_cents": 199,
+      "count_unit": null
+    },
+    {
+      "product_name": "Zucchini",
+      "category": "Produce",
+      "package_size": 1,
+      "unit": "each",
+      "price": 0.99,
+      "stock": 30,
+      "product_id": "P067",
+      "aliases": [
+        "zucchini",
+        "courgette"
+      ],
+      "price_cents": 99,
+      "count_unit": "each"
+    },
+    {
+      "product_name": "Yellow Squash",
+      "category": "Produce",
+      "package_size": 1,
+      "unit": "each",
+      "price": 0.95,
+      "stock": 25,
+      "product_id": "P068",
+      "aliases": [
+        "yellow squash",
+        "summer squash"
+      ],
+      "price_cents": 95,
+      "count_unit": "each"
+    },
+    {
+      "product_name": "Red Bell Pepper",
+      "category": "Produce",
+      "package_size": 1,
+      "unit": "each",
+      "price": 1.39,
+      "stock": 30,
+      "product_id": "P069",
+      "aliases": [
+        "red bell pepper",
+        "red pepper"
+      ],
+      "price_cents": 139,
+      "count_unit": "each"
+    },
+    {
+      "product_name": "Baby Kale",
+      "category": "Produce",
+      "package_size": 5,
+      "unit": "oz",
+      "price": 3.49,
+      "stock": 18,
+      "product_id": "P070",
+      "aliases": [
+        "kale",
+        "baby kale"
+      ],
+      "price_cents": 349,
+      "count_unit": null
+    },
+    {
+      "product_name": "Frozen Peas",
+      "category": "Frozen",
+      "package_size": 12,
+      "unit": "oz",
+      "price": 2.09,
+      "stock": 35,
+      "product_id": "P071",
+      "aliases": [
+        "peas",
+        "frozen peas",
+        "green peas"
+      ],
+      "price_cents": 209,
+      "count_unit": null
+    },
+    {
+      "product_name": "Frozen Corn",
+      "category": "Frozen",
+      "package_size": 12,
+      "unit": "oz",
+      "price": 2.19,
+      "stock": 32,
+      "product_id": "P072",
+      "aliases": [
+        "corn",
+        "corn kernels",
+        "frozen corn"
+      ],
+      "price_cents": 219,
+      "count_unit": null
+    },
+    {
+      "product_name": "Ground Turkey",
+      "category": "Meat & Seafood",
+      "package_size": 1,
+      "unit": "lb",
+      "price": 5.29,
+      "stock": 22,
+      "product_id": "P073",
+      "aliases": [
+        "ground turkey",
+        "turkey mince"
+      ],
+      "price_cents": 529,
+      "count_unit": null
+    },
+    {
+      "product_name": "Chicken Thighs",
+      "category": "Meat & Seafood",
+      "package_size": 1.5,
+      "unit": "lb",
+      "price": 6.79,
+      "stock": 20,
+      "product_id": "P074",
+      "aliases": [
+        "chicken thighs",
+        "boneless chicken thighs"
+      ],
+      "price_cents": 679,
+      "count_unit": null
+    },
+    {
+      "product_name": "Pork Chops",
+      "category": "Meat & Seafood",
+      "package_size": 1,
+      "unit": "lb",
+      "price": 5.79,
+      "stock": 18,
+      "product_id": "P075",
+      "aliases": [
+        "pork chops",
+        "pork chop"
+      ],
+      "price_cents": 579,
+      "count_unit": null
+    },
+    {
+      "product_name": "Pork Sausage",
+      "category": "Meat & Seafood",
+      "package_size": 1,
+      "unit": "lb",
+      "price": 4.99,
+      "stock": 19,
+      "product_id": "P076",
+      "aliases": [
+        "sausage",
+        "pork sausage"
+      ],
+      "price_cents": 499,
+      "count_unit": null
+    },
+    {
+      "product_name": "Salmon Fillets",
+      "category": "Meat & Seafood",
+      "package_size": 1,
+      "unit": "lb",
+      "price": 11.99,
+      "stock": 16,
+      "product_id": "P077",
+      "aliases": [
+        "salmon",
+        "salmon fillet",
+        "salmon fillets"
+      ],
+      "price_cents": 1199,
+      "count_unit": null
+    },
+    {
+      "product_name": "Frozen Shrimp",
+      "category": "Meat & Seafood",
+      "package_size": 1,
+      "unit": "lb",
+      "price": 8.99,
+      "stock": 20,
+      "product_id": "P078",
+      "aliases": [
+        "shrimp",
+        "prawns",
+        "frozen shrimp"
+      ],
+      "price_cents": 899,
+      "count_unit": null
+    },
+    {
+      "product_name": "Canned Tuna",
+      "category": "Canned Goods & Sauces",
+      "package_size": 5,
+      "unit": "oz",
+      "price": 1.59,
+      "stock": 34,
+      "product_id": "P079",
+      "aliases": [
+        "tuna",
+        "canned tuna"
+      ],
+      "price_cents": 159,
+      "count_unit": null
+    },
+    {
+      "product_name": "Firm Tofu",
+      "category": "Dairy & Alternatives",
+      "package_size": 14,
+      "unit": "oz",
+      "price": 2.99,
+      "stock": 24,
+      "product_id": "P080",
+      "aliases": [
+        "tofu",
+        "firm tofu"
+      ],
+      "price_cents": 299,
+      "count_unit": null
+    },
+    {
+      "product_name": "Tempeh",
+      "category": "Dairy & Alternatives",
+      "package_size": 8,
+      "unit": "oz",
+      "price": 3.49,
+      "stock": 14,
+      "product_id": "P081",
+      "aliases": [
+        "tempeh"
+      ],
+      "price_cents": 349,
+      "count_unit": null
+    },
+    {
+      "product_name": "Greek Yogurt",
+      "category": "Dairy & Alternatives",
+      "package_size": 16,
+      "unit": "oz",
+      "price": 4.29,
+      "stock": 25,
+      "product_id": "P082",
+      "aliases": [
+        "greek yogurt",
+        "plain greek yogurt"
+      ],
+      "price_cents": 429,
+      "count_unit": null
+    },
+    {
+      "product_name": "Heavy Cream",
+      "category": "Dairy & Alternatives",
+      "package_size": 16,
+      "unit": "fl oz",
+      "price": 3.69,
+      "stock": 22,
+      "product_id": "P083",
+      "aliases": [
+        "heavy cream",
+        "heavy whipping cream",
+        "whipping cream"
+      ],
+      "price_cents": 369,
+      "count_unit": null
+    },
+    {
+      "product_name": "Half and Half",
+      "category": "Dairy & Alternatives",
+      "package_size": 32,
+      "unit": "fl oz",
+      "price": 3.19,
+      "stock": 25,
+      "product_id": "P084",
+      "aliases": [
+        "half and half",
+        "half & half"
+      ],
+      "price_cents": 319,
+      "count_unit": null
+    },
+    {
+      "product_name": "Cream Cheese",
+      "category": "Dairy & Alternatives",
+      "package_size": 8,
+      "unit": "oz",
+      "price": 2.29,
+      "stock": 25,
+      "product_id": "P085",
+      "aliases": [
+        "cream cheese"
+      ],
+      "price_cents": 229,
+      "count_unit": null
+    },
+    {
+      "product_name": "Mozzarella Cheese",
+      "category": "Dairy & Alternatives",
+      "package_size": 8,
+      "unit": "oz",
+      "price": 3.29,
+      "stock": 26,
+      "product_id": "P086",
+      "aliases": [
+        "mozzarella",
+        "mozzarella cheese",
+        "shredded mozzarella"
+      ],
+      "price_cents": 329,
+      "count_unit": null
+    },
+    {
+      "product_name": "Feta Cheese",
+      "category": "Dairy & Alternatives",
+      "package_size": 6,
+      "unit": "oz",
+      "price": 3.89,
+      "stock": 20,
+      "product_id": "P087",
+      "aliases": [
+        "feta",
+        "feta cheese"
+      ],
+      "price_cents": 389,
+      "count_unit": null
+    },
+    {
+      "product_name": "Ricotta Cheese",
+      "category": "Dairy & Alternatives",
+      "package_size": 15,
+      "unit": "oz",
+      "price": 3.99,
+      "stock": 18,
+      "product_id": "P088",
+      "aliases": [
+        "ricotta",
+        "ricotta cheese"
+      ],
+      "price_cents": 399,
+      "count_unit": null
+    },
+    {
+      "product_name": "Oat Milk",
+      "category": "Dairy & Alternatives",
+      "package_size": 64,
+      "unit": "fl oz",
+      "price": 3.79,
+      "stock": 20,
+      "product_id": "P089",
+      "aliases": [
+        "oat milk"
+      ],
+      "price_cents": 379,
+      "count_unit": null
+    },
+    {
+      "product_name": "Soy Milk",
+      "category": "Dairy & Alternatives",
+      "package_size": 64,
+      "unit": "fl oz",
+      "price": 3.49,
+      "stock": 18,
+      "product_id": "P090",
+      "aliases": [
+        "soy milk"
+      ],
+      "price_cents": 349,
+      "count_unit": null
+    },
+    {
+      "product_name": "Bread Loaf",
+      "category": "Grains & Bakery",
+      "package_size": 20,
+      "unit": "slices",
+      "price": 2.99,
+      "stock": 22,
+      "product_id": "P091",
+      "aliases": [
+        "bread",
+        "bread slices",
+        "sandwich bread"
+      ],
+      "price_cents": 299,
+      "count_unit": null
+    },
+    {
+      "product_name": "Pita Bread",
+      "category": "Grains & Bakery",
+      "package_size": 6,
+      "unit": "each",
+      "price": 2.89,
+      "stock": 20,
+      "product_id": "P092",
+      "aliases": [
+        "pita",
+        "pita bread"
+      ],
+      "price_cents": 289,
+      "count_unit": "each"
+    },
+    {
+      "product_name": "Naan Bread",
+      "category": "Grains & Bakery",
+      "package_size": 4,
+      "unit": "each",
+      "price": 3.49,
+      "stock": 18,
+      "product_id": "P093",
+      "aliases": [
+        "naan",
+        "naan bread"
+      ],
+      "price_cents": 349,
+      "count_unit": "each"
+    },
+    {
+      "product_name": "Lasagna Noodles",
+      "category": "Grains & Bakery",
+      "package_size": 16,
+      "unit": "oz",
+      "price": 2.29,
+      "stock": 20,
+      "product_id": "P094",
+      "aliases": [
+        "lasagna noodles",
+        "lasagna pasta"
+      ],
+      "price_cents": 229,
+      "count_unit": null
+    },
+    {
+      "product_name": "Penne Pasta",
+      "category": "Grains & Bakery",
+      "package_size": 16,
+      "unit": "oz",
+      "price": 1.69,
+      "stock": 35,
+      "product_id": "P095",
+      "aliases": [
+        "penne",
+        "penne pasta"
+      ],
+      "price_cents": 169,
+      "count_unit": null
+    },
+    {
+      "product_name": "Macaroni Pasta",
+      "category": "Grains & Bakery",
+      "package_size": 16,
+      "unit": "oz",
+      "price": 1.59,
+      "stock": 30,
+      "product_id": "P096",
+      "aliases": [
+        "macaroni",
+        "elbow macaroni"
+      ],
+      "price_cents": 159,
+      "count_unit": null
+    },
+    {
+      "product_name": "Ramen Noodles",
+      "category": "Grains & Bakery",
+      "package_size": 12,
+      "unit": "oz",
+      "price": 2.69,
+      "stock": 22,
+      "product_id": "P097",
+      "aliases": [
+        "ramen noodles",
+        "ramen"
+      ],
+      "price_cents": 269,
+      "count_unit": null
+    },
+    {
+      "product_name": "Udon Noodles",
+      "category": "Grains & Bakery",
+      "package_size": 14,
+      "unit": "oz",
+      "price": 3.29,
+      "stock": 18,
+      "product_id": "P098",
+      "aliases": [
+        "udon noodles",
+        "udon"
+      ],
+      "price_cents": 329,
+      "count_unit": null
+    },
+    {
+      "product_name": "Brown Rice",
+      "category": "Grains & Bakery",
+      "package_size": 32,
+      "unit": "oz",
+      "price": 3.19,
+      "stock": 25,
+      "product_id": "P099",
+      "aliases": [
+        "brown rice"
+      ],
+      "price_cents": 319,
+      "count_unit": null
+    },
+    {
+      "product_name": "Quinoa",
+      "category": "Grains & Bakery",
+      "package_size": 16,
+      "unit": "oz",
+      "price": 4.49,
+      "stock": 20,
+      "product_id": "P100",
+      "aliases": [
+        "quinoa"
+      ],
+      "price_cents": 449,
+      "count_unit": null
+    },
+    {
+      "product_name": "Rolled Oats",
+      "category": "Grains & Bakery",
+      "package_size": 18,
+      "unit": "oz",
+      "price": 3.49,
+      "stock": 28,
+      "product_id": "P101",
+      "aliases": [
+        "oats",
+        "rolled oats",
+        "oatmeal"
+      ],
+      "price_cents": 349,
+      "count_unit": null
+    },
+    {
+      "product_name": "All Purpose Flour",
+      "category": "Seasonings & Pantry",
+      "package_size": 5,
+      "unit": "lb",
+      "price": 3.49,
+      "stock": 22,
+      "product_id": "P102",
+      "aliases": [
+        "flour",
+        "all purpose flour"
+      ],
+      "price_cents": 349,
+      "count_unit": null
+    },
+    {
+      "product_name": "White Sugar",
+      "category": "Seasonings & Pantry",
+      "package_size": 4,
+      "unit": "lb",
+      "price": 3.29,
+      "stock": 27,
+      "product_id": "P103",
+      "aliases": [
+        "sugar",
+        "white sugar",
+        "granulated sugar"
+      ],
+      "price_cents": 329,
+      "count_unit": null
+    },
+    {
+      "product_name": "Brown Sugar",
+      "category": "Seasonings & Pantry",
+      "package_size": 2,
+      "unit": "lb",
+      "price": 2.89,
+      "stock": 23,
+      "product_id": "P104",
+      "aliases": [
+        "brown sugar"
+      ],
+      "price_cents": 289,
+      "count_unit": null
+    },
+    {
+      "product_name": "Baking Powder",
+      "category": "Seasonings & Pantry",
+      "package_size": 8,
+      "unit": "oz",
+      "price": 2.09,
+      "stock": 20,
+      "product_id": "P105",
+      "aliases": [
+        "baking powder"
+      ],
+      "price_cents": 209,
+      "count_unit": null
+    },
+    {
+      "product_name": "Baking Soda",
+      "category": "Seasonings & Pantry",
+      "package_size": 16,
+      "unit": "oz",
+      "price": 1.49,
+      "stock": 26,
+      "product_id": "P106",
+      "aliases": [
+        "baking soda"
+      ],
+      "price_cents": 149,
+      "count_unit": null
+    },
+    {
+      "product_name": "Soy Sauce",
+      "category": "Canned Goods & Sauces",
+      "package_size": 15,
+      "unit": "fl oz",
+      "price": 2.99,
+      "stock": 30,
+      "product_id": "P107",
+      "aliases": [
+        "soy sauce"
+      ],
+      "price_cents": 299,
+      "count_unit": null
+    },
+    {
+      "product_name": "Teriyaki Sauce",
+      "category": "Canned Goods & Sauces",
+      "package_size": 12,
+      "unit": "fl oz",
+      "price": 3.29,
+      "stock": 21,
+      "product_id": "P108",
+      "aliases": [
+        "teriyaki sauce"
+      ],
+      "price_cents": 329,
+      "count_unit": null
+    },
+    {
+      "product_name": "Hot Sauce",
+      "category": "Canned Goods & Sauces",
+      "package_size": 5,
+      "unit": "fl oz",
+      "price": 1.99,
+      "stock": 25,
+      "product_id": "P109",
+      "aliases": [
+        "hot sauce"
+      ],
+      "price_cents": 199,
+      "count_unit": null
+    },
+    {
+      "product_name": "Chicken Broth",
+      "category": "Canned Goods & Sauces",
+      "package_size": 32,
+      "unit": "fl oz",
+      "price": 2.29,
+      "stock": 32,
+      "product_id": "P110",
+      "aliases": [
+        "chicken broth",
+        "chicken stock"
+      ],
+      "price_cents": 229,
+      "count_unit": null
+    },
+    {
+      "product_name": "Vegetable Broth",
+      "category": "Canned Goods & Sauces",
+      "package_size": 32,
+      "unit": "fl oz",
+      "price": 2.19,
+      "stock": 28,
+      "product_id": "P111",
+      "aliases": [
+        "vegetable broth",
+        "vegetable stock"
+      ],
+      "price_cents": 219,
+      "count_unit": null
+    },
+    {
+      "product_name": "Coconut Milk",
+      "category": "Canned Goods & Sauces",
+      "package_size": 13.5,
+      "unit": "fl oz",
+      "price": 2.49,
+      "stock": 26,
+      "product_id": "P112",
+      "aliases": [
+        "coconut milk"
+      ],
+      "price_cents": 249,
+      "count_unit": null
+    },
+    {
+      "product_name": "Canned Diced Tomatoes",
+      "category": "Canned Goods & Sauces",
+      "package_size": 14.5,
+      "unit": "oz",
+      "price": 1.49,
+      "stock": 31,
+      "product_id": "P113",
+      "aliases": [
+        "diced tomatoes",
+        "canned tomatoes"
+      ],
+      "price_cents": 149,
+      "count_unit": null
+    },
+    {
+      "product_name": "Tomato Paste",
+      "category": "Canned Goods & Sauces",
+      "package_size": 6,
+      "unit": "oz",
+      "price": 0.99,
+      "stock": 38,
+      "product_id": "P114",
+      "aliases": [
+        "tomato paste"
+      ],
+      "price_cents": 99,
+      "count_unit": null
+    },
+    {
+      "product_name": "Canned Chickpeas",
+      "category": "Canned Goods & Sauces",
+      "package_size": 15,
+      "unit": "oz",
+      "price": 1.19,
+      "stock": 35,
+      "product_id": "P115",
+      "aliases": [
+        "chickpeas",
+        "garbanzo beans"
+      ],
+      "price_cents": 119,
+      "count_unit": null
+    },
+    {
+      "product_name": "Kidney Beans",
+      "category": "Canned Goods & Sauces",
+      "package_size": 15,
+      "unit": "oz",
+      "price": 1.29,
+      "stock": 30,
+      "product_id": "P116",
+      "aliases": [
+        "kidney beans",
+        "red kidney beans"
+      ],
+      "price_cents": 129,
+      "count_unit": null
+    },
+    {
+      "product_name": "Peanut Butter",
+      "category": "Seasonings & Pantry",
+      "package_size": 16,
+      "unit": "oz",
+      "price": 2.99,
+      "stock": 25,
+      "product_id": "P117",
+      "aliases": [
+        "peanut butter"
+      ],
+      "price_cents": 299,
+      "count_unit": null
+    },
+    {
+      "product_name": "Sesame Oil",
+      "category": "Seasonings & Pantry",
+      "package_size": 5,
+      "unit": "fl oz",
+      "price": 4.49,
+      "stock": 18,
+      "product_id": "P118",
+      "aliases": [
+        "sesame oil"
+      ],
+      "price_cents": 449,
+      "count_unit": null
+    },
+    {
+      "product_name": "Honey",
+      "category": "Seasonings & Pantry",
+      "package_size": 12,
+      "unit": "oz",
+      "price": 4.69,
+      "stock": 23,
+      "product_id": "P119",
+      "aliases": [
+        "honey"
+      ],
+      "price_cents": 469,
+      "count_unit": null
+    },
+    {
+      "product_name": "White Vinegar",
+      "category": "Seasonings & Pantry",
+      "package_size": 16,
+      "unit": "fl oz",
+      "price": 1.69,
+      "stock": 26,
+      "product_id": "P120",
+      "aliases": [
+        "white vinegar",
+        "vinegar"
+      ],
+      "price_cents": 169,
+      "count_unit": null
+    },
+    {
+      "product_name": "Balsamic Vinegar",
+      "category": "Seasonings & Pantry",
+      "package_size": 8.5,
+      "unit": "fl oz",
+      "price": 3.49,
+      "stock": 20,
+      "product_id": "P121",
+      "aliases": [
+        "balsamic vinegar"
+      ],
+      "price_cents": 349,
+      "count_unit": null
+    },
+    {
+      "product_name": "Lemon Juice",
+      "category": "Canned Goods & Sauces",
+      "package_size": 8,
+      "unit": "fl oz",
+      "price": 1.69,
+      "stock": 26,
+      "product_id": "P122",
+      "aliases": [
+        "lemon juice"
+      ],
+      "price_cents": 169,
+      "count_unit": null
+    },
+    {
+      "product_name": "Raisins",
+      "category": "Seasonings & Pantry",
+      "package_size": 12,
+      "unit": "oz",
+      "price": 2.69,
+      "stock": 20,
+      "product_id": "P123",
+      "aliases": [
+        "raisins"
+      ],
+      "price_cents": 269,
+      "count_unit": null
+    },
+    {
+      "product_name": "Ground Cinnamon",
+      "category": "Seasonings & Pantry",
+      "package_size": 2,
+      "unit": "oz",
+      "price": 2.49,
+      "stock": 22,
+      "product_id": "P124",
+      "aliases": [
+        "cinnamon",
+        "ground cinnamon"
+      ],
+      "price_cents": 249,
+      "count_unit": null
+    },
+    {
+      "product_name": "Vegetable Oil",
+      "category": "Seasonings & Pantry",
+      "package_size": 48,
+      "unit": "fl oz",
+      "price": 4.49,
+      "stock": 20,
+      "product_id": "P125",
+      "aliases": [
+        "vegetable oil",
+        "canola oil"
+      ],
+      "price_cents": 449,
+      "count_unit": null
+    },
+    {
+      "product_id": "P126",
+      "product_name": "Crushed Red Pepper Flakes",
+      "category": "Pantry",
+      "package_size": 1.5,
+      "unit": "oz",
+      "price": 2.29,
+      "stock": 15,
+      "aliases": [
+        "red pepper flakes",
+        "chili flakes",
+        "crushed red pepper"
+      ],
+      "price_cents": 229,
+      "count_unit": null,
+      "explicit_demo_conversions": {
+        "tsp": 24
+      }
+    },
+    {
+      "product_id": "P127",
+      "product_name": "Sun-Dried Tomatoes",
+      "category": "Pantry",
+      "package_size": 3,
+      "unit": "oz",
+      "price": 4.49,
+      "stock": 12,
+      "aliases": [
+        "sun-dried tomatoes",
+        "sundried tomatoes"
+      ],
+      "price_cents": 449,
+      "count_unit": null
+    },
+    {
+      "product_id": "P128",
+      "product_name": "Plain Vodka Miniature",
+      "category": "Beverages",
+      "package_size": 50,
+      "unit": "ml",
+      "price": 1.99,
+      "stock": 10,
+      "aliases": [
+        "vodka",
+        "plain vodka"
+      ],
+      "price_cents": 199,
+      "count_unit": null
+    },
+    {
+      "product_id": "P129",
+      "product_name": "Grated Parmesan",
+      "category": "Dairy",
+      "package_size": 5,
+      "unit": "oz",
+      "price": 2.79,
+      "stock": 14,
+      "aliases": [
+        "grated parmesan",
+        "grated parmesan cheese"
+      ],
+      "price_cents": 279,
+      "count_unit": null,
+      "budget_alternative_for": [
+        "P011"
+      ],
+      "swap_note": "Grated Parmesan replaces the wedge. Texture may differ."
+    }
+  ]
+}
