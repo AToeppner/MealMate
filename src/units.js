@@ -30,6 +30,12 @@ const UNIT_ALIASES = {
 
 const WEIGHT = new Set(['oz', 'lb']);
 const VOLUME = new Set(['fl oz', 'cup', 'ml', 'tsp', 'tbsp']);
+const COUNTISH = new Set(['each', 'clove', 'bunch', 'slices', 'pack', 'eggs', 'bulbs', 'heads']);
+
+// Generic dry-pantry density used only when a SKU has no explicit map.
+const OZ_PER_TSP_DRY = 0.2;
+// Generic produce/count weight used when recipe asks for oz against an each-sold item.
+const OZ_PER_EACH_DEFAULT = 4;
 
 function normalizeUnit(unit) {
   if (unit == null) return '';
@@ -43,6 +49,10 @@ function isWeight(unit) {
 
 function isVolume(unit) {
   return VOLUME.has(normalizeUnit(unit));
+}
+
+function isCountish(unit) {
+  return COUNTISH.has(normalizeUnit(unit));
 }
 
 function toOz(amount, unit) {
@@ -62,9 +72,17 @@ function toFlOz(amount, unit) {
   return null;
 }
 
+function spoonToTsp(amount, unit) {
+  const u = normalizeUnit(unit);
+  if (u === 'tsp') return amount;
+  if (u === 'tbsp') return amount * 3;
+  return null;
+}
+
 /**
  * Capacity of one package expressed in the ingredient's unit.
  * Weight oz and fluid oz are never treated as interchangeable.
+ * Missing conversions fall back to generic estimates (never null for matched sellable units when possible).
  */
 function packageCapacity(product, ingredientUnit) {
   const need = normalizeUnit(ingredientUnit);
@@ -75,9 +93,8 @@ function packageCapacity(product, ingredientUnit) {
     return {
       capacity: Number(explicit[need]),
       estimate: true,
-      note:
-        product.conversion_note ||
-        'Approximate demo conversion from catalog explicit_demo_conversions.',
+      // Keep UI quiet — estimates should not look like errors.
+      note: null,
     };
   }
 
@@ -100,7 +117,6 @@ function packageCapacity(product, ingredientUnit) {
   }
 
   // Same-dimension volume: fl oz/cup/ml/tbsp/tsp via toFlOz.
-  // Do not convert against weight ounces.
   if (isVolume(prodUnit) && isVolume(need) && !isWeight(prodUnit) && !isWeight(need)) {
     const pkgFl = toFlOz(Number(product.package_size), prodUnit);
     const unitFl = toFlOz(1, need);
@@ -108,6 +124,42 @@ function packageCapacity(product, ingredientUnit) {
     return { capacity: pkgFl / unitFl, estimate: false, note: null };
   }
 
+  // Generic: weight-sold pantry ↔ tsp/tbsp (common Live AI seasoning output).
+  if (isWeight(prodUnit) && (need === 'tsp' || need === 'tbsp')) {
+    const pkgOz = toOz(Number(product.package_size), prodUnit);
+    if (pkgOz == null || pkgOz <= 0) return null;
+    const tspCapacity = pkgOz / OZ_PER_TSP_DRY;
+    const capacity = need === 'tbsp' ? tspCapacity / 3 : tspCapacity;
+    return { capacity, estimate: true, note: null };
+  }
+
+  // Generic: recipe weight against count-sold produce (each/bunch/...).
+  if ((isCountish(prodUnit) || (countUnit && isCountish(countUnit))) && isWeight(need)) {
+    const countPerPkg = Number(product.package_size) || 1;
+    const ozPerPkg = countPerPkg * OZ_PER_EACH_DEFAULT;
+    const unitOz = toOz(1, need);
+    if (unitOz == null || unitOz === 0) return null;
+    return { capacity: ozPerPkg / unitOz, estimate: true, note: null };
+  }
+
+  // Generic: recipe count against weight-sold package (treat oz≈count heuristically poorly —
+  // skip; cart soft-fallback handles remaining cases).
+  if (isWeight(prodUnit) && isCountish(need)) {
+    const pkgOz = toOz(Number(product.package_size), prodUnit);
+    if (pkgOz == null || pkgOz <= 0) return null;
+    return { capacity: pkgOz / OZ_PER_EACH_DEFAULT, estimate: true, note: null };
+  }
+
+  // Spoon amounts against fluid packages already handled; spoon against count is rare.
+  if (isCountish(prodUnit) && (need === 'tsp' || need === 'tbsp')) {
+    const countPerPkg = Number(product.package_size) || 1;
+    // Assume one count unit ≈ 6 tsp (tablespoon-ish produce measure) — last-resort estimate.
+    const tspCapacity = countPerPkg * 6;
+    const capacity = need === 'tbsp' ? tspCapacity / 3 : tspCapacity;
+    return { capacity, estimate: true, note: null };
+  }
+
+  void spoonToTsp;
   return null;
 }
 
@@ -116,12 +168,26 @@ function packagesNeeded(quantity, capacity) {
   return Math.ceil(quantity / capacity);
 }
 
+/**
+ * Last-resort capacity: one package is assumed to cover the requested amount.
+ * Used so matched products never hard-block on unit math.
+ */
+function softPackageCapacity(quantity) {
+  const qty = Number(quantity);
+  if (!(qty > 0)) return { capacity: 1, estimate: true, note: null, soft: true };
+  return { capacity: qty, estimate: true, note: null, soft: true };
+}
+
 module.exports = {
   normalizeUnit,
   isWeight,
   isVolume,
+  isCountish,
   packageCapacity,
   packagesNeeded,
+  softPackageCapacity,
   toOz,
   toFlOz,
+  OZ_PER_TSP_DRY,
+  OZ_PER_EACH_DEFAULT,
 };

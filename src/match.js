@@ -1,5 +1,7 @@
 'use strict';
 
+const { packageCapacity } = require('./units');
+
 function normalizeName(value) {
   return String(value || '')
     .toLowerCase()
@@ -45,11 +47,36 @@ function isGarlicPowderProduct(product) {
   return normalizeName(product.product_name).includes('garlic powder');
 }
 
+function canPriceInUnit(product, unit) {
+  if (!unit) return true;
+  const cap = packageCapacity(product, unit);
+  return Boolean(cap && cap.capacity > 0);
+}
+
+function scoreNameOverlap(target, product) {
+  const names = candidateNames(product);
+  if (names.includes(target)) return 100;
+  let best = 0;
+  for (const name of names) {
+    if (target.includes(name) || name.includes(target)) {
+      best = Math.max(best, Math.min(name.length, target.length));
+    }
+  }
+  return best;
+}
+
+function preferUnitCompatible(matches, unit) {
+  if (!unit || matches.length <= 1) return matches;
+  const compatible = matches.filter((p) => canPriceInUnit(p, unit));
+  return compatible.length ? compatible : matches;
+}
+
 /**
  * Prefer exact normalized product names or aliases.
  * Flag ambiguous matches instead of guessing.
+ * When preferredUnit is set, prefer catalog rows that can convert to that unit.
  */
-function findMatches(ingredientName, products) {
+function findMatches(ingredientName, products, preferredUnit = null) {
   const target = normalizeName(ingredientName);
   if (!target) {
     return { status: 'no_match', matches: [] };
@@ -65,7 +92,9 @@ function findMatches(ingredientName, products) {
       exact = fresh;
     } else if (!exact.length) {
       const freshOnly = products.filter(isFreshGarlicProduct);
-      const garlicAlias = freshOnly.filter((p) => candidateNames(p).includes('garlic') || candidateNames(p).includes('fresh garlic'));
+      const garlicAlias = freshOnly.filter(
+        (p) => candidateNames(p).includes('garlic') || candidateNames(p).includes('fresh garlic')
+      );
       if (
         (target === 'garlic' ||
           target.includes('fresh garlic') ||
@@ -76,22 +105,54 @@ function findMatches(ingredientName, products) {
         exact = garlicAlias;
       }
     } else if (exact.length > 1) {
-      const fresh = exact.filter(isFreshGarlicProduct);
-      if (fresh.length === 1) exact = fresh;
+      const onlyFresh = exact.filter(isFreshGarlicProduct);
+      if (onlyFresh.length === 1) exact = onlyFresh;
     }
   }
 
+  exact = preferUnitCompatible(exact, preferredUnit);
+
   if (exact.length === 1) {
+    if (preferredUnit && !canPriceInUnit(exact[0], preferredUnit)) {
+      const fallback = findUnitCompatibleFallback(target, products, preferredUnit, exact[0].product_id);
+      if (fallback) {
+        return { status: 'matched', matches: [fallback] };
+      }
+    }
     return { status: 'matched', matches: exact };
   }
   if (exact.length > 1) {
     return { status: 'ambiguous', matches: exact };
   }
+
+  // No exact alias: try overlap candidates that can price in the requested unit.
+  if (preferredUnit) {
+    const fallback = findUnitCompatibleFallback(target, products, preferredUnit, null);
+    if (fallback) {
+      return { status: 'matched', matches: [fallback] };
+    }
+  }
+
   return { status: 'no_match', matches: [] };
+}
+
+function findUnitCompatibleFallback(target, products, unit, excludeId) {
+  const scored = products
+    .filter((p) => p.product_id !== excludeId)
+    .map((p) => ({ product: p, score: scoreNameOverlap(target, p) }))
+    .filter((row) => row.score >= 5)
+    .filter((row) => canPriceInUnit(row.product, unit))
+    .sort((a, b) => b.score - a.score || a.product.product_name.localeCompare(b.product.product_name));
+
+  if (!scored.length) return null;
+  // Require a clear winner to avoid random substitutions.
+  if (scored.length > 1 && scored[0].score === scored[1].score) return null;
+  return scored[0].product;
 }
 
 module.exports = {
   normalizeName,
   findMatches,
   prefersFreshGarlic,
+  canPriceInUnit,
 };
