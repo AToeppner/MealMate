@@ -390,12 +390,10 @@ function renderIngredients(rows) {
             : row.skipped
               ? 'Skipped from recipe'
               : 'Excluded from estimate';
-      const issues = (row.issues || []).map((i) => `<p class="issue">${escapeHtml(i.message)}</p>`).join('');
-      const estimate = row.estimate
-        ? `<p class="estimate">Uses approximate package conversion${
-            row.conversion_note ? `: ${escapeHtml(row.conversion_note)}` : ''
-          }</p>`
-        : '';
+      const issues = (row.issues || [])
+        .filter((i) => i.code !== 'incompatible_unit')
+        .map((i) => `<p class="issue">${escapeHtml(i.message)}</p>`)
+        .join('');
 
       const confirmBtn =
         row.pending_confirmation && !row.pantry && !row.skipped
@@ -409,7 +407,6 @@ function renderIngredients(rows) {
               <h3>${escapeHtml(row.ingredient)}</h3>
               <p class="meta">Need ${row.quantity} ${escapeHtml(row.unit)} · ${product}</p>
               <p class="meta">${line}</p>
-              ${estimate}
               ${issues}
             </div>
           </div>

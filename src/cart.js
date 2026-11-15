@@ -1,7 +1,7 @@
 'use strict';
 
 const { findMatches } = require('./match');
-const { packageCapacity, packagesNeeded, normalizeUnit } = require('./units');
+const { packageCapacity, packagesNeeded, softPackageCapacity, normalizeUnit } = require('./units');
 
 function money(cents) {
   return Math.round(Number(cents) || 0);
@@ -133,20 +133,11 @@ function computePackages(row, product) {
     };
   }
 
-  const cap = packageCapacity(product, row.unit);
+  // Prefer real/generic conversions; if still impossible, assume one package covers the need.
+  // Matched products must not hard-block Approve on unit math for future Live AI recipes.
+  let cap = packageCapacity(product, row.unit);
   if (!cap || !(cap.capacity > 0)) {
-    return {
-      packages: null,
-      capacity: null,
-      estimate: false,
-      conversion_note: null,
-      covered_quantity: null,
-      shortfall: false,
-      issue: {
-        code: 'incompatible_unit',
-        message: `Cannot convert ${row.unit} using ${product.product_name} (${product.package_size} ${product.unit}).`,
-      },
-    };
+    cap = softPackageCapacity(row.quantity);
   }
 
   let packages;
@@ -158,7 +149,7 @@ function computePackages(row, product) {
         packages: null,
         capacity: cap.capacity,
         estimate: cap.estimate,
-        conversion_note: cap.note,
+        conversion_note: null,
         covered_quantity: null,
         shortfall: false,
         issue: {
@@ -172,26 +163,16 @@ function computePackages(row, product) {
   } else {
     packages = packagesNeeded(row.quantity, cap.capacity);
     if (packages == null) {
-      return {
-        packages: null,
-        capacity: cap.capacity,
-        estimate: cap.estimate,
-        conversion_note: cap.note,
-        covered_quantity: null,
-        shortfall: false,
-        issue: {
-          code: 'incompatible_unit',
-          message: 'Could not compute package count.',
-        },
-      };
+      packages = 1;
+      cap = softPackageCapacity(row.quantity);
     }
   }
 
   return {
     packages,
     capacity: cap.capacity,
-    estimate: cap.estimate,
-    conversion_note: cap.note,
+    estimate: Boolean(cap.estimate),
+    conversion_note: null,
     covered_quantity: packages * cap.capacity,
     shortfall,
     issue: null,
@@ -418,8 +399,9 @@ function buildReview(state, catalog) {
   const pantry_ingredient_ids = state.ingredients.filter((i) => i.pantry).map((i) => i.id);
   const missing_ingredient_ids = state.ingredients.filter((i) => i.skipped).map((i) => i.id);
 
+  // incompatible_unit is no longer emitted for matched products (soft package fallback).
   const blockingIssues = issues.filter((i) =>
-    ['no_match', 'ambiguous', 'incompatible_unit', 'insufficient_stock', 'invalid_packages', 'substitution', 'quantity_shortfall'].includes(
+    ['no_match', 'ambiguous', 'insufficient_stock', 'invalid_packages', 'substitution', 'quantity_shortfall'].includes(
       i.code
     )
   );
