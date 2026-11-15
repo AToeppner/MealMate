@@ -58,7 +58,7 @@ function checkAiRateLimit(ip, { max = 8, windowMs = 600000 } = {}) {
   entry.count += 1;
   aiHits.set(key, entry);
   if (entry.count > max) {
-    const err = new Error('Live AI rate limit exceeded. Try Saved Example mode or wait and retry.');
+    const err = new Error('Live AI rate limit exceeded. Wait and retry, or reorder from Recipe Book.');
     err.code = 'RATE_LIMIT';
     throw err;
   }

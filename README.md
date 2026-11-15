@@ -7,10 +7,12 @@ This repo is a local prototype: **Node.js 24 + Express + plain HTML/CSS/JS + Ope
 ## Features
 
 1. **Plan** — meal description, servings (1–10), optional USD budget (including $0)
-2. **Generate** — Live AI (OpenAI Responses API) or curated **Saved Example** offline plans
-3. **Review / match / price** — catalog matching, package math, pantry / skip / swap / quantity controls
-4. **Budget** — remaining/overage, linked cheaper substitutes, explicit over-budget acknowledgment
-5. **Approve** — server-side revalidation; simulated snapshot (no payment, stock not decremented)
+2. **Generate** — Live AI (OpenAI Responses API)
+3. **Recipe Book** — approved carts saved in the browser (`localStorage`) for reorder between sessions
+4. **Review / match / price** — catalog matching, package math, pantry / skip / swap / quantity controls
+5. **Budget** — remaining/overage, linked cheaper substitutes, explicit over-budget acknowledgment
+6. **Approve** — server-side revalidation; simulated snapshot (no payment, stock not decremented)
+7. **Instacart link** — after approve, optional deep-link search on Instacart (no partner API)
 
 ## Local setup
 
@@ -25,7 +27,7 @@ npm start
 
 Open `http://localhost:3000` (or the `PORT` you set).
 
-**Live AI key tips:** keep `.env` in the project root (same folder as `package.json`), use `OPENAI_API_KEY=sk-...` with no spaces around `=`, then **restart** `npm start`. Startup logs whether the key was picked up. Saved Example mode works with no key.
+**Live AI key tips:** keep `.env` in the project root (same folder as `package.json`), use `OPENAI_API_KEY=sk-...` with no spaces around `=`, then **restart** `npm start`. Startup logs whether the key was picked up. Recipe Book works without a key once you have approved carts on that browser.
 
 ```bash
 npm test
@@ -37,37 +39,39 @@ The server binds to `0.0.0.0` and `process.env.PORT` (default `3000`).
 
 ### Modes
 
-- **Live AI** — requires `OPENAI_API_KEY` in `.env`. Optional `OPENAI_MODEL` (default `gpt-4.1-mini`). Bounded with a simple per-IP rate limit.
-- **Saved Example** — uses `data/meal_examples.json`. Never labeled as live AI output.
+- **Live AI** — requires `OPENAI_API_KEY` in `.env` (or Render env). Optional `OPENAI_MODEL` (default `gpt-4.1-mini`). Bounded with a simple per-IP rate limit.
+- **Recipe Book** — browser-local history of **approved** carts. Reorder runs through the same match/price/Skip/Already have/Approve flow. Cleared if site data is cleared.
 
-If live generation fails, the UI offers retry or Saved Example mode. Both modes share the same cart path.
-
-### Demo fill
-
-Use **Fill vodka pasta demo** for sun-dried tomato vodka pasta (4 servings, $30) with the demo ingredient list in the meal description. In Live AI mode, Generate calls OpenAI; for a deterministic walkthrough use **Use Saved Example**.
+`data/meal_examples.json` remains for automated fixtures only (not shown in the UI).
 
 ## Data
 
 | File | Role |
 |------|------|
 | `data/grocery_catalog.json` | Simulated products (`price_cents`, stock, aliases, conversions). **Read-only.** |
-| `data/meal_examples.json` | Curated offline / saved-example plans |
+| `data/meal_examples.json` | Curated offline fixtures for `npm test` |
 | `data/cart_test_cases.json` | Deterministic acceptance fixtures |
 
-## Render (document for later — not deployed in this pass)
+## Deploy on Render
 
-Target: low-traffic **Render Free** web service.
+Blueprint file: [`render.yaml`](render.yaml).
 
-Suggested settings when you deploy:
+1. Push this repo to GitHub.
+2. In [Render](https://render.com): **New → Blueprint** (or Web Service) and connect the repo.
+3. Settings (also in `render.yaml`):
+   - **Runtime**: Node
+   - **Build command**: `npm install`
+   - **Start command**: `npm start`
+   - **Health check path**: `/health`
+   - **Instance**: Free web service is fine for class demos
+4. Set secret env var **`OPENAI_API_KEY`** in the Render dashboard (do not commit it). Optional: `OPENAI_MODEL`.
+5. Deploy, then open the Render URL once to warm the free instance before a presentation.
 
-- **Runtime**: Node
-- **Build command**: `npm install`
-- **Start command**: `npm start`
-- **Instance**: Free web service
-- **Health check path**: `/health`
-- **Environment**: set `OPENAI_API_KEY`, optionally `OPENAI_MODEL`, `PORT` (Render sets `PORT` automatically)
+Recipe Book storage is **per browser**, so demos that reorder should use the same browser that approved the cart.
 
-Before a class presentation: open the Render URL once to warm the free instance, or keep `npm start` running locally as a backup. Add secrets only in the Render dashboard — never commit `.env`.
+## Instacart (thin slice)
+
+After Approve, MealMate can open an Instacart storefront **search** URL built from cart product names. This is not an official cart API / OAuth integration.
 
 ## MIST 5400 Track 2 — evaluation metrics
 
@@ -80,7 +84,7 @@ Before a class presentation: open the Render URL once to warm the free instance,
 ### Trial recording procedure
 
 1. Start from a fresh browser session (or **New plan**).
-2. Record: date, participant (or “team”), mode (Live AI / Saved Example), meal text, servings, budget.
+2. Record: date, participant (or “team”), mode (Live AI / Recipe Book), meal text, servings, budget.
 3. Note blockers (no match, stock, budget ack, etc.) and whether approval succeeded.
 4. Capture start timestamp (meal entry) and end timestamp (approval or abandon).
 5. Log findings and product changes in the table below.
@@ -97,12 +101,12 @@ Before a class presentation: open the Render URL once to warm the free instance,
 - **Shopper value**: one meal idea → matched packages, prices, budget help, and an explicit approve step.
 - **Likely cost drivers**: LLM tokens per generation, hosting, future catalog/integration work, support for edge-case ingredients.
 - **ROI assumptions**: _(team: lift in completed carts, time saved per shop, conversion vs search baseline — fill from trials)_
-- **Mock-data limitations**: fixed catalog, approximate unit conversions (`explicit_demo_conversions`), no real payment or inventory decrement, no personalization.
+- **Mock-data limitations**: fixed catalog, approximate unit conversions (`explicit_demo_conversions`), no real payment or inventory decrement, Recipe Book is browser-local only.
 
 ### What AI built vs what the team should verify
 
-- **AI-assisted build**: app scaffold, matching/pricing engine, fixture tests, Saved Example + Live AI paths, local UI, README.
-- **Team should verify / describe from experience**: live OpenAI demos with a real key, outside-user trials and metric collection, Render deploy/warmup, retailer narrative and ROI numbers, any catalog gaps found in class.
+- **AI-assisted build**: app scaffold, matching/pricing engine, fixture tests, Live AI + Recipe Book paths, unit conversion fixes, Instacart deep-link, Render blueprint, local UI, README.
+- **Team should verify / describe from experience**: live OpenAI demos with a real key, outside-user trials and metric collection, Render deploy/warmup, retailer narrative and ROI numbers, catalog gaps found in class.
 
 ## How to run (summary)
 
@@ -112,4 +116,4 @@ npm test
 npm start
 ```
 
-Live AI verification requires `OPENAI_API_KEY` in `.env`. Without a key, use Saved Example mode; treat live AI checks as skipped.
+Live AI verification requires `OPENAI_API_KEY` in `.env` or Render. Without a key, generate is disabled; Recipe Book reorder still works for previously approved carts on that browser.

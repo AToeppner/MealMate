@@ -46,7 +46,7 @@ function getClient() {
   const apiKey = (process.env.OPENAI_API_KEY || '').trim();
   if (!apiKey) {
     const err = new Error(
-      'OPENAI_API_KEY is not configured. Add it to the project-root .env (see .env.example), restart the server, or use Saved Example mode.'
+      'OPENAI_API_KEY is not configured. Add it to the project-root .env (or Render env vars), restart the server, or reorder from Recipe Book.'
     );
     err.code = 'NO_API_KEY';
     throw err;
@@ -92,6 +92,8 @@ async function generateMealPlan({ meal, servings }) {
     `Servings: ${servings} (whole servings)`,
     'Return only the structured ingredients needed to cook this meal for the servings.',
     'Use positive quantities and catalog-friendly units: oz, lb, fl oz, cup, ml, tsp, tbsp, each, clove, bunch, slices.',
+    'Prefer package-aligned units for fats and oils: butter/shortening as oz (or lb); olive oil and other oils as fl oz (or ml/cup).',
+    'Reserve tsp/tbsp mainly for seasonings and spices (salt, pepper, chili flakes, spices), not for butter or bottled oils when an oz/fl oz amount is natural.',
     'Prefer fresh garlic when garlic is needed (not garlic powder), unless the meal explicitly needs powder.',
     'Do not include pantry-only assumptions. Do not price or match products.',
   ].join('\n');

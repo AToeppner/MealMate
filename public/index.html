@@ -56,13 +56,20 @@
             </div>
 
             <div class="actions">
-              <button type="button" id="fill-demo" class="btn ghost">Fill vodka pasta demo</button>
               <button type="submit" id="generate-live" class="btn primary">Generate with Live AI</button>
-              <button type="button" id="load-example" class="btn secondary">Use Saved Example</button>
             </div>
             <p id="plan-error" class="error" role="alert" hidden></p>
             <p id="ai-hint" class="hint"></p>
           </form>
+
+          <div id="recipe-book" class="recipe-book" aria-labelledby="recipe-book-title">
+            <div class="recipe-book-head">
+              <h2 id="recipe-book-title">Recipe Book</h2>
+              <p class="hint">Approved carts are saved here on this browser so you can reorder later.</p>
+            </div>
+            <ul id="recipe-book-list" class="recipe-book-list"></ul>
+            <p id="recipe-book-empty" class="hint">Approve a cart to save it here.</p>
+          </div>
         </section>
 
         <section id="review-section" class="panel" hidden aria-labelledby="review-title">
@@ -103,6 +110,8 @@
         <p>Simulated inventory for demo use. Prices and stock are not live store data.</p>
       </footer>
     </div>
+    <script src="/recipe-book.js"></script>
+    <script src="/instacart.js"></script>
     <script src="/app.js"></script>
   </body>
 </html>
