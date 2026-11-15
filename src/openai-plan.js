@@ -51,7 +51,35 @@ function getClient() {
     err.code = 'NO_API_KEY';
     throw err;
   }
-  return new OpenAI({ apiKey, timeout: 25000 });
+  return new OpenAI({ apiKey, timeout: 45000 });
+}
+
+function formatOpenAiError(err) {
+  const status = err?.status || err?.statusCode || err?.response?.status;
+  const apiMessage =
+    err?.error?.message ||
+    err?.message ||
+    (typeof err?.error === 'string' ? err.error : null) ||
+    'OpenAI request failed';
+
+  let message = apiMessage;
+  if (status === 401 || /incorrect api key|invalid api key|unauthorized/i.test(apiMessage)) {
+    message =
+      'OpenAI rejected the API key (401). Check OPENAI_API_KEY in .env or Render Environment, then restart/redeploy.';
+  } else if (status === 404 || /model_not_found|does not exist|invalid model/i.test(apiMessage)) {
+    message = `OpenAI model is unavailable (${process.env.OPENAI_MODEL || 'gpt-4.1-mini'}). Set OPENAI_MODEL to a model your key can use (e.g. gpt-4o-mini), then restart/redeploy.`;
+  } else if (status === 429 || /rate limit/i.test(apiMessage)) {
+    message = 'OpenAI rate limit hit. Wait a bit and retry.';
+  } else if (/timeout|timed out|ETIMEDOUT|AbortError/i.test(apiMessage)) {
+    message = 'OpenAI request timed out. Retry — free hosts can be slow on the first call.';
+  } else if (status) {
+    message = `OpenAI error (${status}): ${apiMessage}`;
+  }
+
+  const wrapped = new Error(message);
+  wrapped.code = 'OPENAI_ERROR';
+  wrapped.status = status;
+  return wrapped;
 }
 
 function validatePlanPayload(payload) {
@@ -119,9 +147,12 @@ async function generateMealPlan({ meal, servings }) {
       },
     });
   } catch (err) {
-    const wrapped = new Error(err.message || 'OpenAI request failed');
-    wrapped.code = 'OPENAI_ERROR';
-    throw wrapped;
+    console.error('OpenAI generate failed', {
+      model,
+      status: err?.status || err?.statusCode,
+      message: err?.message,
+    });
+    throw formatOpenAiError(err);
   }
 
   let raw = response.output_text;

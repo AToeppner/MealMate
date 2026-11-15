@@ -53,7 +53,12 @@ async function api(path, options = {}) {
   });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
-    const err = new Error(data.error || `Request failed (${res.status})`);
+    const err = new Error(
+      data.error ||
+        (res.status === 502
+          ? 'Live AI request failed (502). Check the server/Render logs and OPENAI_API_KEY / OPENAI_MODEL.'
+          : `Request failed (${res.status})`)
+    );
     err.code = data.code;
     err.data = data;
     throw err;
