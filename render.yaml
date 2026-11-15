@@ -1,0 +1,17 @@
+# MealMate on Render — connect this repo in the Render dashboard,
+# or use Blueprint with this file. Set OPENAI_API_KEY as a secret.
+services:
+  - type: web
+    name: mealmate
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: "24"
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4.1-mini

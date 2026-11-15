@@ -53,10 +53,45 @@ function catalogFor(session) {
 
 function requirePlan(req, res) {
   if (!req.session.plan) {
-    res.status(400).json({ error: 'No active meal plan. Generate or load a saved example first.' });
+    res.status(400).json({ error: 'No active meal plan. Generate with Live AI or reorder from Recipe Book first.' });
     return null;
   }
   return req.session.plan;
+}
+
+function normalizeSavedIngredients(ingredients) {
+  if (!Array.isArray(ingredients) || ingredients.length < 1) {
+    const err = new Error('Recipe Book entries need at least one ingredient.');
+    err.code = 'INVALID_INPUT';
+    throw err;
+  }
+  return ingredients.map((item, index) => {
+    const ingredient = String(item.ingredient || '').trim();
+    const quantity = Number(item.quantity);
+    const unit = String(item.unit || '').trim();
+    if (!ingredient) {
+      const err = new Error(`Ingredient ${index + 1} is missing a name.`);
+      err.code = 'INVALID_INPUT';
+      throw err;
+    }
+    if (!(quantity > 0) || !Number.isFinite(quantity)) {
+      const err = new Error(`Ingredient "${ingredient}" must have a positive quantity.`);
+      err.code = 'INVALID_INPUT';
+      throw err;
+    }
+    if (!unit) {
+      const err = new Error(`Ingredient "${ingredient}" is missing a unit.`);
+      err.code = 'INVALID_INPUT';
+      throw err;
+    }
+    return {
+      id: String(item.id || `r${index + 1}`),
+      ingredient,
+      quantity,
+      unit,
+      product_id: item.product_id || null,
+    };
+  });
 }
 
 function reviewPayload(session) {
@@ -97,19 +132,6 @@ app.get('/api/meta', attachSession, (_req, res) => {
   res.json({
     openai_configured: isOpenAiConfigured(),
     model: process.env.OPENAI_MODEL || 'gpt-4.1-mini',
-    examples: examples.examples.map((e) => ({
-      id: e.id,
-      meal: e.meal,
-      servings: e.servings,
-      budget_cents: e.budget_cents,
-    })),
-    demo_fill: {
-      meal:
-        'Sun-dried tomato vodka pasta with penne, butter, chili flakes, fresh basil, fresh or minced garlic, sun-dried tomatoes, heavy cream, marinara, Parmesan, black pepper, and vodka',
-      servings: 4,
-      budget_usd: 30,
-      example_id: 'vodka-pasta',
-    },
   });
 });
 
@@ -120,6 +142,7 @@ app.get('/api/plan', attachSession, (req, res) => {
   res.json({ plan: reviewPayload(req.session) });
 });
 
+// Kept for fixture/tests and older clients; not linked in the UI.
 app.post('/api/plan/example', attachSession, (req, res) => {
   try {
     const exampleId = req.body.example_id || 'vodka-pasta';
@@ -140,6 +163,48 @@ app.post('/api/plan/example', attachSession, (req, res) => {
       example_id: example.id,
       stock_overrides: req.body.stock_overrides || {},
     });
+
+    res.json({ plan: reviewPayload(req.session) });
+  } catch (err) {
+    res.status(400).json({ error: err.message, code: err.code || 'ERROR' });
+  }
+});
+
+app.post('/api/plan/from-saved', attachSession, (req, res) => {
+  try {
+    const meal = String(req.body.meal || '').trim();
+    if (!meal) {
+      return res.status(400).json({ error: 'Meal name is required.', code: 'INVALID_INPUT' });
+    }
+    const servings = parseServings(req.body.servings != null ? req.body.servings : 4);
+    const budget_cents = parseBudgetCents(
+      req.body.budget_usd !== undefined
+        ? req.body.budget_usd
+        : req.body.budget_cents != null
+          ? Number(req.body.budget_cents) / 100
+          : null
+    );
+    const ingredients = normalizeSavedIngredients(req.body.ingredients);
+
+    req.session.plan = createPlanState({
+      meal,
+      servings,
+      budget_cents,
+      ingredients,
+      mode: 'recipe_book',
+      example_id: req.body.recipe_id || null,
+      stock_overrides: req.body.stock_overrides || {},
+    });
+
+    // Re-apply preferred product matches from the saved snapshot when present.
+    for (const item of ingredients) {
+      if (!item.product_id) continue;
+      const row = req.session.plan.ingredients.find((r) => r.id === item.id);
+      if (row) {
+        row.product_id = item.product_id;
+        row.confirmed = true;
+      }
+    }
 
     res.json({ plan: reviewPayload(req.session) });
   } catch (err) {
@@ -181,7 +246,7 @@ app.post('/api/plan/generate', attachSession, async (req, res) => {
     res.status(status).json({
       error: err.message,
       code: err.code || 'OPENAI_ERROR',
-      offer_saved_example: true,
+      offer_retry: true,
     });
   }
 });
@@ -235,7 +300,7 @@ if (require.main === module) {
       console.log('No .env file found (optional). Live AI needs OPENAI_API_KEY.');
     } else if (!isOpenAiConfigured()) {
       console.log(
-        '.env loaded but OPENAI_API_KEY is empty. Live AI disabled; Saved Example still works.'
+        '.env loaded but OPENAI_API_KEY is empty. Live AI disabled; Recipe Book still works.'
       );
     } else {
       console.log('OPENAI_API_KEY configured — Live AI enabled.');

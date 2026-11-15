@@ -7,8 +7,6 @@ const els = {
   meal: document.getElementById('meal'),
   servings: document.getElementById('servings'),
   budget: document.getElementById('budget'),
-  fillDemo: document.getElementById('fill-demo'),
-  loadExample: document.getElementById('load-example'),
   planError: document.getElementById('plan-error'),
   aiHint: document.getElementById('ai-hint'),
   modeBadge: document.getElementById('mode-badge'),
@@ -26,6 +24,8 @@ const els = {
   approveMsg: document.getElementById('approve-msg'),
   approvedView: document.getElementById('approved-view'),
   newPlan: document.getElementById('new-plan'),
+  recipeBookList: document.getElementById('recipe-book-list'),
+  recipeBookEmpty: document.getElementById('recipe-book-empty'),
 };
 
 let meta = null;
@@ -66,26 +66,115 @@ function setBusy(busy) {
     b.disabled = busy;
   });
   els.approveBtn.disabled = busy;
+  els.recipeBookList.querySelectorAll('button').forEach((b) => {
+    b.disabled = busy;
+  });
+}
+
+function modeLabel(plan) {
+  if (plan.mode === 'live_ai') return 'Live AI plan';
+  if (plan.mode === 'recipe_book') return 'Recipe Book reorder';
+  if (plan.mode === 'saved_example') {
+    return `Saved Example${plan.example_id ? `: ${plan.example_id}` : ''}`;
+  }
+  return plan.mode || 'Plan';
+}
+
+function renderRecipeBook() {
+  const recipes = window.MealMateRecipeBook.loadRecipes();
+  els.recipeBookEmpty.hidden = recipes.length > 0;
+  els.recipeBookList.innerHTML = recipes
+    .map((recipe) => {
+      const when = recipe.savedAt ? new Date(recipe.savedAt).toLocaleString() : '';
+      const budget =
+        recipe.budget_cents == null ? 'No budget' : `Budget ${usd(recipe.budget_cents)}`;
+      return `
+        <li class="recipe-card" data-id="${escapeHtml(recipe.id)}">
+          <div>
+            <h3>${escapeHtml(recipe.meal)}</h3>
+            <p class="meta">${recipe.servings} serving${recipe.servings === 1 ? '' : 's'} · ${budget}${
+              when ? ` · ${escapeHtml(when)}` : ''
+            }</p>
+          </div>
+          <div class="recipe-card-actions">
+            <button type="button" class="btn secondary" data-reorder="${escapeHtml(recipe.id)}">Reorder</button>
+            <button type="button" class="btn ghost" data-remove="${escapeHtml(recipe.id)}">Remove</button>
+          </div>
+        </li>`;
+    })
+    .join('');
+
+  els.recipeBookList.querySelectorAll('[data-reorder]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const recipe = window.MealMateRecipeBook.getRecipe(btn.getAttribute('data-reorder'));
+      if (!recipe) return;
+      showError(els.planError, '');
+      setBusy(true);
+      try {
+        const data = await api('/api/plan/from-saved', {
+          method: 'POST',
+          body: JSON.stringify({
+            recipe_id: recipe.id,
+            meal: recipe.meal,
+            servings: recipe.servings,
+            budget_cents: recipe.budget_cents,
+            ingredients: recipe.ingredients,
+          }),
+        });
+        els.meal.value = recipe.meal;
+        els.servings.value = String(recipe.servings);
+        els.budget.value =
+          recipe.budget_cents == null ? '' : (recipe.budget_cents / 100).toFixed(2);
+        renderPlan(data.plan);
+      } catch (err) {
+        showError(els.planError, err.message);
+      } finally {
+        setBusy(false);
+      }
+    });
+  });
+
+  els.recipeBookList.querySelectorAll('[data-remove]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      window.MealMateRecipeBook.removeRecipe(btn.getAttribute('data-remove'));
+      renderRecipeBook();
+    });
+  });
+}
+
+function saveApprovedToRecipeBook(plan) {
+  if (!plan?.approved) return;
+  const snapshot = window.MealMateRecipeBook.snapshotFromPlan({
+    meal: plan.meal,
+    servings: plan.servings,
+    budget_cents: plan.budget_cents,
+    rows: plan.rows,
+  });
+  // Prefer original ingredient quantities (not skipped-only rows) for reorder.
+  snapshot.ingredients = (plan.rows || [])
+    .filter((row) => row && row.ingredient)
+    .map((row, index) => ({
+      id: row.id || `r${index + 1}`,
+      ingredient: row.ingredient,
+      quantity: Number(row.quantity),
+      unit: row.unit,
+      product_id: row.product_id || null,
+    }));
+  window.MealMateRecipeBook.upsertRecipe(snapshot);
+  renderRecipeBook();
 }
 
 async function init() {
   meta = await api('/api/meta');
   els.aiHint.textContent = meta.openai_configured
-    ? `Live AI ready (model ${meta.model}). Saved Example mode still available.`
-    : 'No OPENAI_API_KEY configured. Use Saved Example mode, or add a key to .env for Live AI.';
+    ? `Live AI ready (model ${meta.model}). Approved carts save to Recipe Book on this browser.`
+    : 'No OPENAI_API_KEY configured. Add a key to .env (or Render env vars) and restart, or reorder from Recipe Book after you have saved recipes.';
+
+  renderRecipeBook();
 
   const existing = await api('/api/plan');
   if (existing.plan) renderPlan(existing.plan);
 }
-
-els.fillDemo.addEventListener('click', () => {
-  const demo = meta?.demo_fill;
-  if (!demo) return;
-  els.meal.value = demo.meal;
-  els.servings.value = String(demo.servings);
-  els.budget.value = String(demo.budget_usd);
-  showError(els.planError, '');
-});
 
 els.planForm.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -105,40 +194,8 @@ els.planForm.addEventListener('submit', async (event) => {
   } catch (err) {
     showError(
       els.planError,
-      `${err.message}${err.data?.offer_saved_example ? ' You can Retry or use Saved Example mode.' : ''}`
+      `${err.message}${err.data?.offer_retry ? ' You can retry after fixing the key or waiting out rate limits.' : ''}`
     );
-  } finally {
-    setBusy(false);
-  }
-});
-
-els.loadExample.addEventListener('click', async () => {
-  showError(els.planError, '');
-  setBusy(true);
-  try {
-    const body = {
-      example_id: meta?.demo_fill?.example_id || 'vodka-pasta',
-      servings: Number(els.servings.value) || undefined,
-      budget_usd: els.budget.value === '' ? undefined : Number(els.budget.value),
-    };
-    // If the form is empty, still load the curated example defaults.
-    if (!els.meal.value.trim()) {
-      delete body.servings;
-      delete body.budget_usd;
-    }
-    const data = await api('/api/plan/example', {
-      method: 'POST',
-      body: JSON.stringify(body),
-    });
-    // Keep form in sync with loaded example.
-    els.meal.value = data.plan.meal;
-    els.servings.value = String(data.plan.servings);
-    if (data.plan.budget_cents != null) {
-      els.budget.value = (data.plan.budget_cents / 100).toFixed(2);
-    }
-    renderPlan(data.plan);
-  } catch (err) {
-    showError(els.planError, err.message);
   } finally {
     setBusy(false);
   }
@@ -151,6 +208,7 @@ els.newPlan.addEventListener('click', async () => {
   els.planSection.hidden = false;
   els.modeBadge.hidden = true;
   els.approvedView.hidden = true;
+  renderRecipeBook();
 });
 
 els.budgetAck.addEventListener('change', async () => {
@@ -164,7 +222,9 @@ els.approveBtn.addEventListener('click', async () => {
   try {
     const data = await api('/api/plan/approve', { method: 'POST', body: '{}' });
     renderPlan(data.plan);
-    els.approveMsg.textContent = 'Cart approved (simulated snapshot — stock not decremented).';
+    saveApprovedToRecipeBook(data.plan);
+    els.approveMsg.textContent =
+      'Cart approved (simulated snapshot — stock not decremented). Saved to Recipe Book.';
   } catch (err) {
     if (err.data?.plan) renderPlan(err.data.plan);
     els.approveMsg.textContent = explainApproval(err.data?.plan) || err.message;
@@ -195,7 +255,7 @@ function explainApproval(plan) {
   }
   if (plan.approval === 'blocked') {
     const codes = (plan.issues || []).map((i) => i.code).join(', ');
-    return `Approval blocked until issues are resolved${codes ? ` (${codes})` : ''}.`;
+    return `Approval blocked until issues are resolved${codes ? ` (${codes})` : ''}. Use Skip or Already have on problem ingredients.`;
   }
   return '';
 }
@@ -205,10 +265,8 @@ function renderPlan(plan) {
   els.planSection.hidden = true;
   els.reviewSection.hidden = false;
 
-  const modeLabel =
-    plan.mode === 'live_ai' ? 'Live AI plan' : `Saved Example${plan.example_id ? `: ${plan.example_id}` : ''}`;
   els.modeBadge.hidden = false;
-  els.modeBadge.textContent = modeLabel;
+  els.modeBadge.textContent = modeLabel(plan);
 
   els.reviewSummary.textContent = `${plan.meal} · ${plan.servings} serving${plan.servings === 1 ? '' : 's'}`;
 
@@ -233,7 +291,9 @@ function renderPlan(plan) {
   renderIngredients(plan.rows || []);
   renderCart(plan);
 
-  const needsAck = plan.approval === 'requires_budget_acknowledgment' || (plan.budget_cents != null && plan.total_cents > plan.budget_cents);
+  const needsAck =
+    plan.approval === 'requires_budget_acknowledgment' ||
+    (plan.budget_cents != null && plan.total_cents > plan.budget_cents);
   els.budgetAckLabel.hidden = !needsAck && !plan.budget_acknowledged;
   if (needsAck || plan.budget_acknowledged) {
     els.budgetAckLabel.hidden = false;
@@ -259,13 +319,21 @@ function renderPlan(plan) {
     const shortfalls = (plan.approved.shortfalls || [])
       .map((s) => `${s.ingredient}: needed ${s.needed}, covered ${s.covered}`)
       .join('; ');
+    const instacartUrl = window.MealMateInstacart.buildInstacartSearchUrl(plan);
     els.approvedView.innerHTML = `
       <h3>Approved cart</h3>
       <p><strong>Total:</strong> ${usd(plan.approved.total_cents)}</p>
       <p>Status: ${plan.approved.status}</p>
       ${skipped ? `<p><strong>Skipped ingredients:</strong> ${skipped}</p>` : ''}
       ${shortfalls ? `<p><strong>Confirmed shortfalls:</strong> ${shortfalls}</p>` : ''}
-      <p class="hint">Any later cart edit clears this approval.</p>
+      <p class="hint">Saved to Recipe Book on this browser. Any later cart edit clears this approval.</p>
+      <div class="approved-actions">
+        ${
+          instacartUrl
+            ? `<a class="btn secondary" href="${instacartUrl}" target="_blank" rel="noopener noreferrer">Open on Instacart</a>`
+            : ''
+        }
+      </div>
     `;
   } else {
     els.approvedView.hidden = true;

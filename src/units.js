@@ -99,15 +99,9 @@ function packageCapacity(product, ingredientUnit) {
     return { capacity: pkgOz / unitOz, estimate: false, note: null };
   }
 
-  // Same-dimension volume: fl oz <-> cup (and compatible volume units).
+  // Same-dimension volume: fl oz/cup/ml/tbsp/tsp via toFlOz.
   // Do not convert against weight ounces.
   if (isVolume(prodUnit) && isVolume(need) && !isWeight(prodUnit) && !isWeight(need)) {
-    // Only allow catalog-compatible conversions listed in the prompt for
-    // fl oz/cup, plus ml when both sides are ml-compatible volume.
-    const allowedPair =
-      (prodUnit === 'fl oz' || prodUnit === 'cup' || prodUnit === 'ml') &&
-      (need === 'fl oz' || need === 'cup' || need === 'ml');
-    if (!allowedPair) return null;
     const pkgFl = toFlOz(Number(product.package_size), prodUnit);
     const unitFl = toFlOz(1, need);
     if (pkgFl == null || unitFl == null || unitFl === 0) return null;

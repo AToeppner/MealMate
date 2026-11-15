@@ -392,6 +392,66 @@ button:focus-visible {
   color: var(--ok);
 }
 
+.recipe-book {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(31, 77, 53, 0.12);
+}
+
+.recipe-book-head h2 {
+  margin: 0 0 0.35rem;
+  font-family: var(--display);
+  font-size: 1.35rem;
+  color: var(--green-900);
+}
+
+.recipe-book-list {
+  list-style: none;
+  margin: 0.85rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.recipe-book-list:empty {
+  display: none;
+}
+
+.recipe-card {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: center;
+  border: 1px solid rgba(31, 77, 53, 0.12);
+  border-radius: 14px;
+  padding: 0.85rem 1rem;
+  background: #fff;
+}
+
+.recipe-card h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-family: var(--font);
+}
+
+.recipe-card .meta {
+  margin: 0.2rem 0 0;
+}
+
+.recipe-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.approved-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}
+
 .foot {
   margin-top: 1.25rem;
   color: var(--muted);
