@@ -94,6 +94,7 @@ async function generateMealPlan({ meal, servings }) {
     'Use positive quantities and catalog-friendly units: oz, lb, fl oz, cup, ml, tsp, tbsp, each, clove, bunch, slices.',
     'Prefer package-aligned units for fats and oils: butter/shortening as oz (or lb); olive oil and other oils as fl oz (or ml/cup).',
     'Reserve tsp/tbsp mainly for seasonings and spices (salt, pepper, chili flakes, spices), not for butter or bottled oils when an oz/fl oz amount is natural.',
+    'For soups and sauces that need tomatoes by weight (oz/lb), name canned tomatoes (diced/crushed) rather than generic fresh tomatoes counted as each.',
     'Prefer fresh garlic when garlic is needed (not garlic powder), unless the meal explicitly needs powder.',
     'Do not include pantry-only assumptions. Do not price or match products.',
   ].join('\n');

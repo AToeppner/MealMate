@@ -718,13 +718,18 @@
       "stock": 40,
       "product_id": "P046",
       "aliases": [
-        "tomato",
-        "tomatoes",
         "roma tomato",
-        "roma tomatoes"
+        "roma tomatoes",
+        "fresh roma tomato",
+        "fresh tomato",
+        "fresh tomatoes"
       ],
       "price_cents": 65,
-      "count_unit": "each"
+      "count_unit": "each",
+      "conversion_note": "Mock-store estimate: 1 Roma tomato ≈ 2.5 oz.",
+      "explicit_demo_conversions": {
+        "oz": 2.5
+      }
     },
     {
       "product_name": "Yellow Onion",
@@ -861,7 +866,12 @@
         "table salt"
       ],
       "price_cents": 149,
-      "count_unit": null
+      "count_unit": null,
+      "conversion_note": "Mock-store estimate: 26 oz table salt ≈ 120 tsp (≈40 tbsp).",
+      "explicit_demo_conversions": {
+        "tsp": 120,
+        "tbsp": 40
+      }
     },
     {
       "product_name": "Fresh Jalapeno",
@@ -1587,7 +1597,13 @@
         "granulated sugar"
       ],
       "price_cents": 329,
-      "count_unit": null
+      "count_unit": null,
+      "conversion_note": "Mock-store estimate: 4 lb white sugar ≈ 450 tsp (≈150 tbsp).",
+      "explicit_demo_conversions": {
+        "tsp": 450,
+        "tbsp": 150,
+        "cup": 9
+      }
     },
     {
       "product_name": "Brown Sugar",
@@ -1727,9 +1743,28 @@
       "product_id": "P113",
       "aliases": [
         "diced tomatoes",
-        "canned tomatoes"
+        "canned diced tomatoes",
+        "canned tomatoes",
+        "tomatoes",
+        "tomato"
       ],
       "price_cents": 149,
+      "count_unit": null
+    },
+    {
+      "product_name": "Canned Crushed Tomatoes",
+      "category": "Canned Goods & Sauces",
+      "package_size": 28,
+      "unit": "oz",
+      "price": 2.29,
+      "stock": 28,
+      "product_id": "P130",
+      "aliases": [
+        "crushed tomatoes",
+        "canned crushed tomatoes",
+        "crushed tomato"
+      ],
+      "price_cents": 229,
       "count_unit": null
     },
     {

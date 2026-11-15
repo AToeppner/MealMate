@@ -69,7 +69,7 @@ function resolveMatch(row, catalog) {
         issue: { code: 'no_match', message: 'Selected product is not in the catalog.' },
       };
     }
-    const auto = findMatches(row.ingredient, catalog.products);
+    const auto = findMatches(row.ingredient, catalog.products, row.unit);
     const isSubstitution =
       auto.status === 'matched' && auto.matches[0].product_id !== product.product_id;
     return {
@@ -86,7 +86,7 @@ function resolveMatch(row, catalog) {
     };
   }
 
-  const result = findMatches(row.ingredient, catalog.products);
+  const result = findMatches(row.ingredient, catalog.products, row.unit);
   if (result.status === 'matched') {
     return {
       status: 'matched',
