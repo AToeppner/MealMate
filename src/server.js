@@ -237,6 +237,7 @@ app.post('/api/plan/generate', attachSession, async (req, res) => {
     });
     res.json({ plan: reviewPayload(req.session) });
   } catch (err) {
+    console.error('POST /api/plan/generate failed', err.code || err.name, err.message);
     const status =
       err.code === 'NO_API_KEY' || err.code === 'RATE_LIMIT'
         ? 429
@@ -244,7 +245,7 @@ app.post('/api/plan/generate', attachSession, async (req, res) => {
           ? 400
           : 502;
     res.status(status).json({
-      error: err.message,
+      error: err.message || 'Live AI generate failed.',
       code: err.code || 'OPENAI_ERROR',
       offer_retry: true,
     });
