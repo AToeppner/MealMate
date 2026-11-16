@@ -10,7 +10,7 @@ This repo is a local prototype: **Node.js 24 + Express + plain HTML/CSS/JS + Ope
 2. **Generate** — Live AI (OpenAI Responses API)
 3. **Recipe Book** — approved carts saved in the browser (`localStorage`) for reorder between sessions
 4. **Review / match / price** — catalog matching, package math, pantry / skip / swap / quantity controls
-5. **Budget** — remaining/overage, linked cheaper substitutes, explicit over-budget acknowledgment
+5. **Budget** — remaining/overage shown as informational, linked cheaper substitutes; over-budget does not block approval
 6. **Approve** — server-side revalidation; simulated snapshot (no payment, stock not decremented)
 7. **Instacart link** — after approve, optional deep-link search on Instacart (no partner API)
 
@@ -85,7 +85,7 @@ After Approve, MealMate can open an Instacart storefront **search** URL built fr
 
 1. Start from a fresh browser session (or **New plan**).
 2. Record: date, participant (or “team”), mode (Live AI / Recipe Book), meal text, servings, budget.
-3. Note blockers (no match, stock, budget ack, etc.) and whether approval succeeded.
+3. Note blockers (no match, stock, etc.) and whether approval succeeded.
 4. Capture start timestamp (meal entry) and end timestamp (approval or abandon).
 5. Log findings and product changes in the table below.
 

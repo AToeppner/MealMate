@@ -55,7 +55,7 @@
         ],
         "total_cents": 3209,
         "budget_remaining_cents": -209,
-        "approval": "requires_budget_acknowledgment",
+        "approval": "approved",
         "missing_ingredient_ids": [],
         "pantry_ingredient_ids": [],
         "issues": [],
@@ -66,69 +66,6 @@
             "savings_cents": 150
           }
         ]
-      }
-    },
-    {
-      "id": "vodka-override",
-      "example_id": "vodka-pasta",
-      "actions": [
-        {
-          "action": "acknowledge_budget"
-        }
-      ],
-      "expected": {
-        "cart_lines": [
-          {
-            "product_id": "P095",
-            "packages": 1
-          },
-          {
-            "product_id": "P029",
-            "packages": 1
-          },
-          {
-            "product_id": "P126",
-            "packages": 1
-          },
-          {
-            "product_id": "P064",
-            "packages": 1
-          },
-          {
-            "product_id": "P026",
-            "packages": 1
-          },
-          {
-            "product_id": "P127",
-            "packages": 1
-          },
-          {
-            "product_id": "P083",
-            "packages": 1
-          },
-          {
-            "product_id": "P007",
-            "packages": 1
-          },
-          {
-            "product_id": "P011",
-            "packages": 1
-          },
-          {
-            "product_id": "P054",
-            "packages": 1
-          },
-          {
-            "product_id": "P128",
-            "packages": 1
-          }
-        ],
-        "total_cents": 3209,
-        "budget_remaining_cents": -209,
-        "approval": "approved",
-        "missing_ingredient_ids": [],
-        "pantry_ingredient_ids": [],
-        "issues": []
       }
     },
     {
@@ -255,7 +192,7 @@
         ],
         "total_cents": 3209,
         "budget_remaining_cents": -209,
-        "approval": "requires_budget_acknowledgment",
+        "approval": "approved",
         "missing_ingredient_ids": [],
         "pantry_ingredient_ids": [],
         "issues": []
@@ -455,7 +392,7 @@
         ],
         "total_cents": 3209,
         "budget_remaining_cents": -209,
-        "approval": "requires_budget_acknowledgment",
+        "approval": "approved",
         "missing_ingredient_ids": [],
         "pantry_ingredient_ids": [],
         "issues": [],
@@ -571,7 +508,7 @@
         ],
         "total_cents": 1346,
         "budget_remaining_cents": -346,
-        "approval": "requires_budget_acknowledgment",
+        "approval": "approved",
         "missing_ingredient_ids": [],
         "pantry_ingredient_ids": [],
         "issues": []
@@ -602,7 +539,7 @@
         ],
         "total_cents": 2235,
         "budget_remaining_cents": -235,
-        "approval": "requires_budget_acknowledgment",
+        "approval": "approved",
         "missing_ingredient_ids": [],
         "pantry_ingredient_ids": [],
         "issues": []

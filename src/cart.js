@@ -38,7 +38,6 @@ function createPlanState({
     mode,
     example_id,
     ingredients: ingredients.map(createIngredientRow),
-    budget_acknowledged: false,
     approved: null,
     stock_overrides: { ...stock_overrides },
   };
@@ -46,11 +45,6 @@ function createPlanState({
 
 function clearApproval(state) {
   state.approved = null;
-  return state;
-}
-
-function invalidateBudgetAck(state) {
-  state.budget_acknowledged = false;
   return state;
 }
 
@@ -409,8 +403,6 @@ function buildReview(state, catalog) {
   let approval = 'approved';
   if (blockingIssues.length) {
     approval = 'blocked';
-  } else if (budget_cents != null && total_cents > budget_cents && !state.budget_acknowledged) {
-    approval = 'requires_budget_acknowledgment';
   } else if (missing_ingredient_ids.length) {
     approval = 'approved_incomplete';
   }
@@ -424,7 +416,6 @@ function buildReview(state, catalog) {
     mode: state.mode,
     example_id: state.example_id,
     budget_cents,
-    budget_acknowledged: state.budget_acknowledged,
     rows,
     cart_lines,
     total_cents,
@@ -525,19 +516,13 @@ function applyAction(state, action) {
   clearApproval(state);
   const type = action.action;
 
-  if (type === 'acknowledge_budget') {
-    state.budget_acknowledged = true;
-    return state;
-  }
-
   if (type === 'set_budget') {
     state.budget_cents = action.budget_cents == null ? null : money(action.budget_cents);
-    invalidateBudgetAck(state);
     return state;
   }
 
   const ingredient = state.ingredients.find((i) => i.id === action.ingredient_id);
-  if (!ingredient && type !== 'acknowledge_budget') {
+  if (!ingredient) {
     throw new Error(`Unknown ingredient: ${action.ingredient_id}`);
   }
 
@@ -561,7 +546,6 @@ function applyAction(state, action) {
       ingredient.pantry = true;
       ingredient.skipped = false;
     }
-    invalidateBudgetAck(state);
     return state;
   }
 
@@ -569,13 +553,11 @@ function applyAction(state, action) {
     ingredient.skipped = true;
     ingredient.pantry = false;
     ingredient.confirmed = false;
-    invalidateBudgetAck(state);
     return state;
   }
 
   if (type === 'unskip') {
     ingredient.skipped = false;
-    invalidateBudgetAck(state);
     return state;
   }
 
@@ -585,13 +567,11 @@ function applyAction(state, action) {
     ingredient.skipped = false;
     ingredient.pantry = false;
     ingredient.packages_override = null;
-    invalidateBudgetAck(state);
     return state;
   }
 
   if (type === 'confirm') {
     ingredient.confirmed = true;
-    invalidateBudgetAck(state);
     return state;
   }
 
@@ -604,7 +584,6 @@ function applyAction(state, action) {
     ingredient.confirmed = false;
     ingredient.skipped = false;
     ingredient.pantry = false;
-    invalidateBudgetAck(state);
     return state;
   }
 
@@ -615,7 +594,6 @@ function applyAction(state, action) {
     if (action.unit) ingredient.unit = action.unit;
     ingredient.confirmed = false;
     ingredient.packages_override = null;
-    invalidateBudgetAck(state);
     return state;
   }
 
@@ -624,7 +602,7 @@ function applyAction(state, action) {
 
 function attemptApproval(state, catalog) {
   const review = buildReview(state, catalog);
-  if (review.approval === 'blocked' || review.approval === 'requires_budget_acknowledgment') {
+  if (review.approval === 'blocked') {
     return { ok: false, review };
   }
 
