@@ -393,9 +393,20 @@ function buildReview(state, catalog) {
   const pantry_ingredient_ids = state.ingredients.filter((i) => i.pantry).map((i) => i.id);
   const missing_ingredient_ids = state.ingredients.filter((i) => i.skipped).map((i) => i.id);
 
+  // Unmatched / unpriceable rows stay visible and stay out of cart totals, but do not block Approve.
+  const unmatched_ingredient_ids = rows
+    .filter(
+      (r) =>
+        !r.pantry &&
+        !r.skipped &&
+        (r.status === 'no_match' || (r.issues || []).some((issue) => issue.code === 'no_match'))
+    )
+    .map((r) => r.id);
+
   // incompatible_unit is no longer emitted for matched products (soft package fallback).
+  // no_match is informational only — approval snapshots the priced cart and discloses unmatched rows.
   const blockingIssues = issues.filter((i) =>
-    ['no_match', 'ambiguous', 'insufficient_stock', 'invalid_packages', 'substitution', 'quantity_shortfall'].includes(
+    ['ambiguous', 'insufficient_stock', 'invalid_packages', 'substitution', 'quantity_shortfall'].includes(
       i.code
     )
   );
@@ -403,7 +414,7 @@ function buildReview(state, catalog) {
   let approval = 'approved';
   if (blockingIssues.length) {
     approval = 'blocked';
-  } else if (missing_ingredient_ids.length) {
+  } else if (missing_ingredient_ids.length || unmatched_ingredient_ids.length) {
     approval = 'approved_incomplete';
   }
 
@@ -422,6 +433,7 @@ function buildReview(state, catalog) {
     budget_remaining_cents,
     pantry_ingredient_ids,
     missing_ingredient_ids,
+    unmatched_ingredient_ids,
     issues,
     cheaper_swaps,
     approval,
@@ -621,6 +633,7 @@ function attemptApproval(state, catalog) {
     cart_lines: review.cart_lines,
     skipped_ingredient_ids: review.missing_ingredient_ids,
     pantry_ingredient_ids: review.pantry_ingredient_ids,
+    unmatched_ingredient_ids: review.unmatched_ingredient_ids,
     shortfalls,
     status: review.approval,
   };
@@ -639,6 +652,7 @@ function summarizeForTests(review) {
     approval: review.approval,
     missing_ingredient_ids: review.missing_ingredient_ids,
     pantry_ingredient_ids: review.pantry_ingredient_ids,
+    unmatched_ingredient_ids: review.unmatched_ingredient_ids,
     issues: review.issues.map((i) => ({
       ingredient_id: i.ingredient_id,
       code: i.code,
