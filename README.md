@@ -11,7 +11,7 @@ This repo is a local prototype: **Node.js 24 + Express + plain HTML/CSS/JS + Ope
 3. **Recipe Book** — approved carts saved in the browser (`localStorage`) for reorder between sessions
 4. **Review / match / price** — catalog matching, package math, pantry / skip / swap / quantity controls
 5. **Budget** — remaining/overage shown as informational, linked cheaper substitutes; over-budget does not block approval
-6. **Approve** — server-side revalidation; simulated snapshot (no payment, stock not decremented)
+6. **Approve** — server-side revalidation; simulated snapshot (no payment, stock not decremented). Unmatched / unpriceable ingredients stay visible, are left out of the estimated total and budget, and do not block approval (disclosed on the snapshot).
 7. **Instacart link** — after approve, optional deep-link search on Instacart (no partner API)
 
 ## Local setup

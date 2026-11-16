@@ -601,9 +601,10 @@
         ],
         "total_cents": 727,
         "budget_remaining_cents": 473,
-        "approval": "blocked",
+        "approval": "approved_incomplete",
         "missing_ingredient_ids": [],
         "pantry_ingredient_ids": [],
+        "unmatched_ingredient_ids": ["i3"],
         "issues": [
           {
             "ingredient_id": "i3",

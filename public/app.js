@@ -245,11 +245,28 @@ async function runAction(action) {
   }
 }
 
+const BLOCKING_ISSUE_CODES = new Set([
+  'ambiguous',
+  'insufficient_stock',
+  'invalid_packages',
+  'substitution',
+  'quantity_shortfall',
+]);
+
 function explainApproval(plan) {
   if (!plan) return '';
   if (plan.approval === 'blocked') {
-    const codes = (plan.issues || []).map((i) => i.code).join(', ');
+    const codes = [
+      ...new Set(
+        (plan.issues || [])
+          .filter((i) => BLOCKING_ISSUE_CODES.has(i.code))
+          .map((i) => i.code)
+      ),
+    ].join(', ');
     return `Approval blocked until issues are resolved${codes ? ` (${codes})` : ''}. Use Skip or Already have on problem ingredients.`;
+  }
+  if ((plan.unmatched_ingredient_ids || []).length) {
+    return 'Unmatched ingredients stay in review but are left out of the estimated total and budget. You can still approve.';
   }
   return '';
 }
@@ -286,11 +303,14 @@ function renderPlan(plan) {
   renderCart(plan);
 
   els.approveBtn.disabled = plan.approval === 'blocked';
-  els.approveMsg.textContent = plan.approval === 'blocked' ? explainApproval(plan) : '';
+  els.approveMsg.textContent = plan.approved ? '' : explainApproval(plan);
 
   if (plan.approved) {
     els.approvedView.hidden = false;
     const skipped = (plan.approved.skipped_ingredient_ids || [])
+      .map((id) => plan.rows.find((r) => r.id === id)?.ingredient || id)
+      .join(', ');
+    const unmatched = (plan.approved.unmatched_ingredient_ids || [])
       .map((id) => plan.rows.find((r) => r.id === id)?.ingredient || id)
       .join(', ');
     const shortfalls = (plan.approved.shortfalls || [])
@@ -302,6 +322,7 @@ function renderPlan(plan) {
       <p><strong>Total:</strong> ${usd(plan.approved.total_cents)}</p>
       <p>Status: ${plan.approved.status}</p>
       ${skipped ? `<p><strong>Skipped ingredients:</strong> ${skipped}</p>` : ''}
+      ${unmatched ? `<p><strong>Unmatched (left out of estimate):</strong> ${unmatched}</p>` : ''}
       ${shortfalls ? `<p><strong>Confirmed shortfalls:</strong> ${shortfalls}</p>` : ''}
       <p class="hint">Saved to Recipe Book on this browser. Any later cart edit clears this approval.</p>
       <div class="approved-actions">

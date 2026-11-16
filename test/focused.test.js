@@ -89,7 +89,7 @@ describe('focused coverage', () => {
     assert.equal(review.approved, null);
   });
 
-  it('miso tofu udon blocks approval until miso is addressed', () => {
+  it('miso tofu udon allows approval with unmatched miso left out of the estimate', () => {
     const example = getExample(examples, 'partial');
     const catalog = cloneCatalog(catalogBase);
     const state = createPlanState({
@@ -102,15 +102,23 @@ describe('focused coverage', () => {
     });
 
     let review = buildReview(state, catalog);
-    assert.equal(review.approval, 'blocked');
+    assert.equal(review.approval, 'approved_incomplete');
     assert.ok(review.issues.some((i) => i.ingredient_id === 'i3' && i.code === 'no_match'));
+    assert.deepEqual(review.unmatched_ingredient_ids, ['i3']);
+    assert.ok(!review.rows.find((r) => r.id === 'i3').include_in_cart);
+    assert.equal(review.total_cents, 727);
+
     let attempt = attemptApproval(state, catalog);
-    assert.equal(attempt.ok, false);
+    assert.equal(attempt.ok, true);
+    assert.equal(attempt.review.approval, 'approved_incomplete');
+    assert.deepEqual(attempt.review.approved.unmatched_ingredient_ids, ['i3']);
+    assert.equal(attempt.review.approved.total_cents, 727);
 
     applyAction(state, { action: 'skip', ingredient_id: 'i3' });
     attempt = attemptApproval(state, catalog);
     assert.equal(attempt.ok, true);
     assert.equal(attempt.review.approval, 'approved_incomplete');
     assert.deepEqual(attempt.review.missing_ingredient_ids, ['i3']);
+    assert.deepEqual(attempt.review.unmatched_ingredient_ids, []);
   });
 });

@@ -75,6 +75,13 @@ describe('cart_test_cases.json fixtures', () => {
         [...expected.pantry_ingredient_ids].sort()
       );
 
+      if (Object.prototype.hasOwnProperty.call(expected, 'unmatched_ingredient_ids')) {
+        assert.deepEqual(
+          [...(summary.unmatched_ingredient_ids || [])].sort(),
+          [...expected.unmatched_ingredient_ids].sort()
+        );
+      }
+
       const issueKey = (i) => `${i.ingredient_id}:${i.code}`;
       assert.deepEqual(
         summary.issues.map(issueKey).sort(),
