@@ -18,7 +18,15 @@ const els = {
   cartLines: document.getElementById('cart-lines'),
   cartTotal: document.getElementById('cart-total'),
   approveBtn: document.getElementById('approve-btn'),
+  viewRecipeBtn: document.getElementById('view-recipe-btn'),
   approveMsg: document.getElementById('approve-msg'),
+  recipeView: document.getElementById('recipe-view'),
+  recipeViewTitle: document.getElementById('recipe-view-title'),
+  recipeViewMeta: document.getElementById('recipe-view-meta'),
+  recipeSteps: document.getElementById('recipe-steps'),
+  recipeError: document.getElementById('recipe-error'),
+  recipeRetryBtn: document.getElementById('recipe-retry-btn'),
+  recipeHideBtn: document.getElementById('recipe-hide-btn'),
   approvedView: document.getElementById('approved-view'),
   newPlan: document.getElementById('new-plan'),
   recipeBookList: document.getElementById('recipe-book-list'),
@@ -27,6 +35,8 @@ const els = {
 
 let meta = null;
 let currentPlan = null;
+let currentRecipe = null;
+let recipeBusy = false;
 
 function usd(cents) {
   return `$${(cents / 100).toFixed(2)}`;
@@ -67,10 +77,97 @@ function setBusy(busy) {
   els.planForm.querySelectorAll('button').forEach((b) => {
     b.disabled = busy;
   });
-  els.approveBtn.disabled = busy;
+  els.approveBtn.disabled = busy || (currentPlan && currentPlan.approval === 'blocked');
+  els.viewRecipeBtn.disabled = busy || recipeBusy || !currentPlan;
+  els.recipeRetryBtn.disabled = busy || recipeBusy;
   els.recipeBookList.querySelectorAll('button').forEach((b) => {
     b.disabled = busy;
   });
+}
+
+function resetRecipeView() {
+  currentRecipe = null;
+  els.recipeView.hidden = true;
+  els.recipeSteps.innerHTML = '';
+  els.recipeViewMeta.textContent = '';
+  els.recipeViewTitle.textContent = 'How to make it';
+  showError(els.recipeError, '');
+  els.recipeRetryBtn.hidden = true;
+}
+
+function recipeSourceLabel(recipe) {
+  if (!recipe) return '';
+  if (recipe.source === 'saved_example') {
+    return recipe.example_id
+      ? `Saved Example steps (${recipe.example_id})`
+      : 'Saved Example steps';
+  }
+  if (recipe.source === 'live_ai') return 'Live AI steps';
+  return recipe.source || '';
+}
+
+function renderRecipe(recipe) {
+  currentRecipe = recipe;
+  els.recipeView.hidden = false;
+  showError(els.recipeError, '');
+  els.recipeRetryBtn.hidden = true;
+  els.recipeViewTitle.textContent = recipe.title || recipe.meal || 'How to make it';
+  const source = recipeSourceLabel(recipe);
+  els.recipeViewMeta.textContent = [
+    recipe.servings != null ? `${recipe.servings} serving${recipe.servings === 1 ? '' : 's'}` : null,
+    source,
+  ]
+    .filter(Boolean)
+    .join(' · ');
+  const steps = Array.isArray(recipe.steps) ? recipe.steps : [];
+  els.recipeSteps.innerHTML = steps
+    .map(
+      (step) =>
+        `<li><span class="step-order">${Number(step.order) || ''}</span><span class="step-text">${escapeHtml(
+          step.instruction
+        )}</span></li>`
+    )
+    .join('');
+}
+
+function showRecipeError(message, { offerRetry = true } = {}) {
+  els.recipeView.hidden = false;
+  els.recipeSteps.innerHTML = '';
+  els.recipeViewMeta.textContent = '';
+  showError(els.recipeError, message);
+  els.recipeRetryBtn.hidden = !offerRetry;
+}
+
+async function loadRecipe({ forceRefresh = false } = {}) {
+  if (!currentPlan || recipeBusy) return;
+  recipeBusy = true;
+  setBusy(false);
+  els.viewRecipeBtn.textContent = 'Loading recipe…';
+  showError(els.recipeError, '');
+  els.recipeRetryBtn.hidden = true;
+  els.recipeView.hidden = false;
+  if (!forceRefresh) {
+    els.recipeSteps.innerHTML = '<li class="recipe-loading">Preparing step-by-step instructions…</li>';
+  }
+  try {
+    const data = await api('/api/plan/recipe', {
+      method: 'POST',
+      body: JSON.stringify({ force_refresh: forceRefresh }),
+    });
+    renderRecipe(data.recipe);
+  } catch (err) {
+    const hint = err.data?.offer_retry
+      ? ' You can retry without affecting cart approval.'
+      : '';
+    showRecipeError(`${err.message}${hint}`, { offerRetry: Boolean(err.data?.offer_retry ?? true) });
+  } finally {
+    recipeBusy = false;
+    els.viewRecipeBtn.textContent = 'View recipe';
+    setBusy(false);
+    if (currentPlan) {
+      els.approveBtn.disabled = currentPlan.approval === 'blocked';
+    }
+  }
 }
 
 function modeLabel(plan) {
@@ -206,6 +303,7 @@ els.planForm.addEventListener('submit', async (event) => {
 els.newPlan.addEventListener('click', async () => {
   await api('/api/plan/reset', { method: 'POST', body: '{}' });
   currentPlan = null;
+  resetRecipeView();
   els.reviewSection.hidden = true;
   els.planSection.hidden = false;
   els.modeBadge.hidden = true;
@@ -228,6 +326,18 @@ els.approveBtn.addEventListener('click', async () => {
   } finally {
     setBusy(false);
   }
+});
+
+els.viewRecipeBtn.addEventListener('click', () => {
+  loadRecipe({ forceRefresh: false });
+});
+
+els.recipeRetryBtn.addEventListener('click', () => {
+  loadRecipe({ forceRefresh: true });
+});
+
+els.recipeHideBtn.addEventListener('click', () => {
+  els.recipeView.hidden = true;
 });
 
 async function runAction(action) {
@@ -272,6 +382,12 @@ function explainApproval(plan) {
 }
 
 function renderPlan(plan) {
+  const mealChanged =
+    !currentPlan ||
+    currentPlan.meal !== plan.meal ||
+    currentPlan.servings !== plan.servings ||
+    currentPlan.example_id !== plan.example_id ||
+    currentPlan.mode !== plan.mode;
   currentPlan = plan;
   els.planSection.hidden = true;
   els.reviewSection.hidden = false;
@@ -303,7 +419,12 @@ function renderPlan(plan) {
   renderCart(plan);
 
   els.approveBtn.disabled = plan.approval === 'blocked';
+  els.viewRecipeBtn.disabled = recipeBusy;
   els.approveMsg.textContent = plan.approved ? '' : explainApproval(plan);
+
+  if (mealChanged) {
+    resetRecipeView();
+  }
 
   if (plan.approved) {
     els.approvedView.hidden = false;

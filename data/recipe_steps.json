@@ -1,0 +1,198 @@
+{
+  "schema_version": 1,
+  "source": "Deterministic demo recipes for Saved Examples / offline mode",
+  "recipes": {
+    "vodka-pasta": {
+      "title": "Sun-dried tomato vodka pasta",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Bring a large pot of salted water to a boil. Cook the penne until al dente, then reserve 1/2 cup pasta water and drain."
+        },
+        {
+          "order": 2,
+          "instruction": "While the pasta cooks, mince the garlic and roughly chop the sun-dried tomatoes and basil."
+        },
+        {
+          "order": 3,
+          "instruction": "Melt the butter in a wide skillet over medium heat. Add garlic and chili flakes; cook about 30 seconds until fragrant."
+        },
+        {
+          "order": 4,
+          "instruction": "Stir in the sun-dried tomatoes, then carefully add the vodka. Simmer 1–2 minutes to cook off the sharp alcohol edge."
+        },
+        {
+          "order": 5,
+          "instruction": "Pour in the marinara and heavy cream. Simmer gently for 3–4 minutes until the sauce thickens slightly."
+        },
+        {
+          "order": 6,
+          "instruction": "Toss in the drained pasta, adding a splash of pasta water if needed so the sauce coats the noodles."
+        },
+        {
+          "order": 7,
+          "instruction": "Finish with grated parmesan, black pepper, and torn basil. Taste and adjust seasoning, then serve."
+        }
+      ]
+    },
+    "beef-tacos": {
+      "title": "Beef tacos",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Warm the taco shells in a low oven or dry skillet until crisp, then set aside."
+        },
+        {
+          "order": 2,
+          "instruction": "Brown the ground beef in a skillet over medium-high heat, breaking it up as it cooks."
+        },
+        {
+          "order": 3,
+          "instruction": "Drain excess fat if needed, then stir in the taco seasoning with a splash of water. Simmer until thickened."
+        },
+        {
+          "order": 4,
+          "instruction": "Fill each shell with seasoned beef, then top with shredded cheddar, salsa, and a dollop of sour cream."
+        },
+        {
+          "order": 5,
+          "instruction": "Serve immediately while the shells are still crisp."
+        }
+      ]
+    },
+    "black-bean-bowls": {
+      "title": "Vegetarian black bean rice bowls",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Rinse the rice, then cook it according to package directions until fluffy."
+        },
+        {
+          "order": 2,
+          "instruction": "Warm the black beans in a saucepan; season lightly with salt and a squeeze of lime."
+        },
+        {
+          "order": 3,
+          "instruction": "Heat the frozen corn in a skillet until hot and lightly browned at the edges."
+        },
+        {
+          "order": 4,
+          "instruction": "Dice the avocado and cut remaining lime into wedges."
+        },
+        {
+          "order": 5,
+          "instruction": "Build bowls with rice, beans, and corn. Top with salsa, avocado, and lime wedges."
+        }
+      ]
+    },
+    "breakfast": {
+      "title": "Egg and spinach toast",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Toast the bread slices until golden."
+        },
+        {
+          "order": 2,
+          "instruction": "Melt the butter in a nonstick skillet over medium heat. Wilt the spinach for 1–2 minutes, then push to the side."
+        },
+        {
+          "order": 3,
+          "instruction": "Crack in the eggs and cook to your preferred doneness (sunny-side up or lightly scrambled with the spinach)."
+        },
+        {
+          "order": 4,
+          "instruction": "Butter the toast if desired, pile on spinach and eggs, season with salt and pepper, and serve."
+        }
+      ]
+    },
+    "chicken-rice": {
+      "title": "Chicken and broccoli rice bowls",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Cook the rice according to package directions."
+        },
+        {
+          "order": 2,
+          "instruction": "Cut the chicken into bite-size pieces and season lightly with salt and pepper."
+        },
+        {
+          "order": 3,
+          "instruction": "Sear the chicken in a hot skillet until cooked through and lightly browned; transfer to a plate."
+        },
+        {
+          "order": 4,
+          "instruction": "In the same pan, stir-fry the broccoli with a splash of water until bright green and tender-crisp."
+        },
+        {
+          "order": 5,
+          "instruction": "Return the chicken, add soy sauce, and toss to coat. Serve over rice."
+        }
+      ]
+    },
+    "partial": {
+      "title": "Miso tofu udon",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Cook the udon noodles according to package directions; drain and rinse briefly if directed."
+        },
+        {
+          "order": 2,
+          "instruction": "Pat the tofu dry and cut into cubes. Pan-sear until golden on a few sides."
+        },
+        {
+          "order": 3,
+          "instruction": "Whisk the miso with a ladle of hot water until smooth, then warm gently (do not boil hard)."
+        },
+        {
+          "order": 4,
+          "instruction": "Combine noodles, tofu, and miso broth in bowls. Top with sliced green onions and serve."
+        }
+      ]
+    },
+    "spaghetti": {
+      "title": "Spaghetti marinara",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Bring salted water to a boil and cook the spaghetti until al dente; reserve a splash of pasta water, then drain."
+        },
+        {
+          "order": 2,
+          "instruction": "Warm the marinara in a saucepan over medium-low heat until simmering."
+        },
+        {
+          "order": 3,
+          "instruction": "Toss the pasta with the sauce, loosening with pasta water if needed."
+        },
+        {
+          "order": 4,
+          "instruction": "Plate and finish with grated parmesan. Serve hot."
+        }
+      ]
+    },
+    "pancakes": {
+      "title": "Pancakes and eggs",
+      "steps": [
+        {
+          "order": 1,
+          "instruction": "Whisk the pancake mix with the milk (and any package-directed liquid) until mostly smooth; a few small lumps are fine."
+        },
+        {
+          "order": 2,
+          "instruction": "Cook pancakes on a lightly greased griddle over medium heat until bubbles form, then flip and finish."
+        },
+        {
+          "order": 3,
+          "instruction": "In a separate pan, cook the eggs to your liking (fried or scrambled)."
+        },
+        {
+          "order": 4,
+          "instruction": "Serve pancakes with maple syrup alongside the eggs."
+        }
+      ]
+    }
+  }
+}

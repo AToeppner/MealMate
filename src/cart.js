@@ -39,12 +39,15 @@ function createPlanState({
     example_id,
     ingredients: ingredients.map(createIngredientRow),
     approved: null,
+    recipe: null,
     stock_overrides: { ...stock_overrides },
   };
 }
 
 function clearApproval(state) {
   state.approved = null;
+  // Cart edits can change the cookable ingredient set; drop cached steps.
+  state.recipe = null;
   return state;
 }
 
