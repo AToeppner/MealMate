@@ -17,9 +17,6 @@ const els = {
   ingredientList: document.getElementById('ingredient-list'),
   cartLines: document.getElementById('cart-lines'),
   cartTotal: document.getElementById('cart-total'),
-  budgetAckLabel: document.getElementById('budget-ack-label'),
-  budgetAck: document.getElementById('budget-ack'),
-  budgetAckText: document.getElementById('budget-ack-text'),
   approveBtn: document.getElementById('approve-btn'),
   approveMsg: document.getElementById('approve-msg'),
   approvedView: document.getElementById('approved-view'),
@@ -216,11 +213,6 @@ els.newPlan.addEventListener('click', async () => {
   renderRecipeBook();
 });
 
-els.budgetAck.addEventListener('change', async () => {
-  if (!els.budgetAck.checked) return;
-  await runAction({ action: 'acknowledge_budget' });
-});
-
 els.approveBtn.addEventListener('click', async () => {
   els.approveMsg.textContent = '';
   setBusy(true);
@@ -255,9 +247,6 @@ async function runAction(action) {
 
 function explainApproval(plan) {
   if (!plan) return '';
-  if (plan.approval === 'requires_budget_acknowledgment') {
-    return `Cart is ${usd(plan.total_cents)}, over budget. Acknowledge the total to approve.`;
-  }
   if (plan.approval === 'blocked') {
     const codes = (plan.issues || []).map((i) => i.code).join(', ');
     return `Approval blocked until issues are resolved${codes ? ` (${codes})` : ''}. Use Skip or Already have on problem ingredients.`;
@@ -296,25 +285,8 @@ function renderPlan(plan) {
   renderIngredients(plan.rows || []);
   renderCart(plan);
 
-  const needsAck =
-    plan.approval === 'requires_budget_acknowledgment' ||
-    (plan.budget_cents != null && plan.total_cents > plan.budget_cents);
-  els.budgetAckLabel.hidden = !needsAck && !plan.budget_acknowledged;
-  if (needsAck || plan.budget_acknowledged) {
-    els.budgetAckLabel.hidden = false;
-    els.budgetAck.checked = Boolean(plan.budget_acknowledged);
-    els.budgetAckText.textContent = `I understand the cart total is ${usd(plan.total_cents)}, above my ${usd(
-      plan.budget_cents
-    )} budget.`;
-  }
-
   els.approveBtn.disabled = plan.approval === 'blocked';
-  els.approveMsg.textContent =
-    plan.approval === 'blocked'
-      ? explainApproval(plan)
-      : plan.approval === 'requires_budget_acknowledgment'
-        ? 'Acknowledge the over-budget total before approving.'
-        : '';
+  els.approveMsg.textContent = plan.approval === 'blocked' ? explainApproval(plan) : '';
 
   if (plan.approved) {
     els.approvedView.hidden = false;
