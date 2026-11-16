@@ -1,13 +1,7 @@
 Disclaimers for alcohol and allergies, 
-replace use saved example button with previous Recipie book
-instacart connection
-remove vodka pasta demo 
+* instacart connection - improve or remove this
 expand catalog and recipes - use existing format of data/grocery_catalog.json and data/meal_examples.json
 Some sort of KPI or success metric
 
-bugs
-unable to continue because of later issues - Approval blocked until issues are resolved (no_match, incompatible_unit, incompatible_unit, incompatible_unit).
-- ses approximate package conversion: Approximate demo conversion from catalog explicit_demo_conversions.
-- Cannot convert tbsp using Unsalted Butter (16 oz).
-- Cannot convert tbsp using Olive Oil (17 fl oz).
-Message on display screen - No OPENAI_API_KEY configured. Use Saved Example mode, or add a key to .env for Live AI.
+* bugs
+Price not dynamically adjusting after removing items from cart
