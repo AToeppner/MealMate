@@ -53,7 +53,7 @@ function catalogFor(session) {
 
 function requirePlan(req, res) {
   if (!req.session.plan) {
-    res.status(400).json({ error: 'No active meal plan. Generate with Live AI or reorder from Recipe Book first.' });
+    res.status(400).json({ error: 'No active meal plan. Generate With AI or reorder from Recipe Book first.' });
     return null;
   }
   return req.session.plan;
