@@ -172,7 +172,7 @@ function saveApprovedToRecipeBook(plan) {
 async function init() {
   meta = await api('/api/meta');
   els.aiHint.textContent = meta.openai_configured
-    ? `Live AI ready (model ${meta.model}). Approved carts save to Recipe Book on this browser.`
+    ? 'Approved carts save to Recipe Book on this browser.'
     : 'No OPENAI_API_KEY configured. Add a key to .env (or Render env vars) and restart, or reorder from Recipe Book after you have saved recipes.';
 
   renderRecipeBook();
