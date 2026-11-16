@@ -11,8 +11,9 @@ This repo is a local prototype: **Node.js 24 + Express + plain HTML/CSS/JS + Ope
 3. **Recipe Book** — approved carts saved in the browser (`localStorage`) for reorder between sessions
 4. **Review / match / price** — catalog matching, package math, pantry / skip / swap / quantity controls
 5. **Budget** — remaining/overage shown as informational, linked cheaper substitutes; over-budget does not block approval
-6. **Approve** — server-side revalidation; simulated snapshot (no payment, stock not decremented). Unmatched / unpriceable ingredients stay visible, are left out of the estimated total and budget, and do not block approval (disclosed on the snapshot).
-7. **Instacart link** — after approve, optional deep-link search on Instacart (no partner API)
+6. **View recipe** — step-by-step cook instructions next to Approve (Saved Example / offline cache for known meals; Live AI when configured). Failures show retry and never block approval.
+7. **Approve** — server-side revalidation; simulated snapshot (no payment, stock not decremented). Unmatched / unpriceable ingredients stay visible, are left out of the estimated total and budget, and do not block approval (disclosed on the snapshot).
+8. **Instacart link** — after approve, optional deep-link search on Instacart (no partner API)
 
 ## Local setup
 
@@ -39,7 +40,8 @@ The server binds to `0.0.0.0` and `process.env.PORT` (default `3000`).
 
 ### Modes
 
-- **Live AI** — requires `OPENAI_API_KEY` in `.env` (or Render env). Optional `OPENAI_MODEL` (default `gpt-4.1-mini`). Bounded with a simple per-IP rate limit.
+- **Live AI** — requires `OPENAI_API_KEY` in `.env` (or Render env). Optional `OPENAI_MODEL` (default `gpt-6-luna`). Bounded with a simple per-IP rate limit. Used for ingredient generate and for recipe steps on unknown meals.
+- **Saved Example / offline recipes** — known fixture meals resolve cook steps from `data/recipe_steps.json` without a live key (demos still work).
 - **Recipe Book** — browser-local history of **approved** carts. Reorder runs through the same match/price/Skip/Already have/Approve flow. Cleared if site data is cleared.
 
 `data/meal_examples.json` remains for automated fixtures only (not shown in the UI).
@@ -50,6 +52,7 @@ The server binds to `0.0.0.0` and `process.env.PORT` (default `3000`).
 |------|------|
 | `data/grocery_catalog.json` | Simulated products (`price_cents`, stock, aliases, conversions). **Read-only.** |
 | `data/meal_examples.json` | Curated offline fixtures for `npm test` |
+| `data/recipe_steps.json` | Deterministic step-by-step recipes for known example meals |
 | `data/cart_test_cases.json` | Deterministic acceptance fixtures |
 
 ## Deploy on Render
@@ -64,7 +67,7 @@ Blueprint file: [`render.yaml`](render.yaml).
    - **Start command**: `npm start`
    - **Health check path**: `/health`
    - **Instance**: Free web service is fine for class demos
-4. Set secret env var **`OPENAI_API_KEY`** in the Render dashboard (do not commit it). Optional: `OPENAI_MODEL`.
+4. Set secret env var **`OPENAI_API_KEY`** in the Render dashboard (do not commit it). Optional: `OPENAI_MODEL` (defaults to `gpt-6-luna`).
 5. Deploy, then open the Render URL once to warm the free instance before a presentation.
 
 Recipe Book storage is **per browser**, so demos that reorder should use the same browser that approved the cart.

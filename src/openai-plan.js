@@ -67,7 +67,7 @@ function formatOpenAiError(err) {
     message =
       'OpenAI rejected the API key (401). Check OPENAI_API_KEY in .env or Render Environment, then restart/redeploy.';
   } else if (status === 404 || /model_not_found|does not exist|invalid model/i.test(apiMessage)) {
-    message = `OpenAI model is unavailable (${process.env.OPENAI_MODEL || 'gpt-4.1-mini'}). Set OPENAI_MODEL to a model your key can use (e.g. gpt-4o-mini), then restart/redeploy.`;
+    message = `OpenAI model is unavailable (${process.env.OPENAI_MODEL || 'gpt-6-luna'}). Set OPENAI_MODEL to a model your key can use (e.g. gpt-6-luna or gpt-4o-mini), then restart/redeploy.`;
   } else if (status === 429 || /rate limit/i.test(apiMessage)) {
     message = 'OpenAI rate limit hit. Wait a bit and retry.';
   } else if (/timeout|timed out|ETIMEDOUT|AbortError/i.test(apiMessage)) {
@@ -110,9 +110,75 @@ function validatePlanPayload(payload) {
   return { ingredients };
 }
 
+const RECIPE_SCHEMA = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['steps'],
+  properties: {
+    steps: {
+      type: 'array',
+      minItems: 3,
+      maxItems: 16,
+      items: {
+        type: 'object',
+        additionalProperties: false,
+        required: ['order', 'instruction'],
+        properties: {
+          order: { type: 'integer', minimum: 1 },
+          instruction: { type: 'string', minLength: 1 },
+        },
+      },
+    },
+  },
+};
+
+function validateRecipePayload(payload) {
+  if (!payload || !Array.isArray(payload.steps) || payload.steps.length < 1) {
+    throw new Error('Model returned no recipe steps.');
+  }
+  const steps = payload.steps.map((item, index) => {
+    const instruction = String(item.instruction || '').trim();
+    const orderRaw = item.order != null ? Number(item.order) : index + 1;
+    const order = Number.isInteger(orderRaw) && orderRaw > 0 ? orderRaw : index + 1;
+    if (!instruction) {
+      throw new Error(`Recipe step ${index + 1} is missing an instruction.`);
+    }
+    return { order, instruction };
+  });
+  steps.sort((a, b) => a.order - b.order);
+  return {
+    steps: steps.map((step, index) => ({
+      order: index + 1,
+      instruction: step.instruction,
+    })),
+  };
+}
+
+function parseModelJson(response) {
+  let raw = response.output_text;
+  if (!raw && Array.isArray(response.output)) {
+    const texts = [];
+    for (const item of response.output) {
+      if (!item.content) continue;
+      for (const part of item.content) {
+        if (part.type === 'output_text' || part.type === 'text') texts.push(part.text);
+      }
+    }
+    raw = texts.join('');
+  }
+
+  try {
+    return JSON.parse(raw);
+  } catch {
+    const err = new Error('Model returned malformed JSON.');
+    err.code = 'MALFORMED_OUTPUT';
+    throw err;
+  }
+}
+
 async function generateMealPlan({ meal, servings }) {
   const client = getClient();
-  const model = process.env.OPENAI_MODEL || 'gpt-4.1-mini';
+  const model = process.env.OPENAI_MODEL || 'gpt-6-luna';
 
   const prompt = [
     'You are MealMate, helping a shopper turn a meal idea into a grocery ingredient list.',
@@ -155,24 +221,10 @@ async function generateMealPlan({ meal, servings }) {
     throw formatOpenAiError(err);
   }
 
-  let raw = response.output_text;
-  if (!raw && Array.isArray(response.output)) {
-    const texts = [];
-    for (const item of response.output) {
-      if (!item.content) continue;
-      for (const part of item.content) {
-        if (part.type === 'output_text' || part.type === 'text') texts.push(part.text);
-      }
-    }
-    raw = texts.join('');
-  }
-
   let parsed;
   try {
-    parsed = JSON.parse(raw);
-  } catch {
-    const err = new Error('Model returned malformed JSON.');
-    err.code = 'MALFORMED_OUTPUT';
+    parsed = parseModelJson(response);
+  } catch (err) {
     throw err;
   }
 
@@ -184,8 +236,74 @@ async function generateMealPlan({ meal, servings }) {
   }
 }
 
+async function generateRecipeSteps({ meal, servings, ingredients }) {
+  const client = getClient();
+  const model = process.env.OPENAI_MODEL || 'gpt-6-luna';
+
+  const ingredientLines = (ingredients || [])
+    .map((item) => `- ${item.quantity} ${item.unit} ${item.ingredient}`)
+    .join('\n');
+
+  const prompt = [
+    'You are MealMate, writing clear home-cook recipe instructions.',
+    `Meal: ${meal}`,
+    `Servings: ${servings}`,
+    'Ingredients available for this meal:',
+    ingredientLines || '- (none listed)',
+    'Return only structured cooking steps that use these ingredients for this meal and servings.',
+    'Write concise, ordered steps a beginner can follow (prep, cook, finish).',
+    'Do not invent major ingredients that are not listed. Do not price or match grocery products.',
+    'Do not include shopping advice. Instructions only.',
+  ].join('\n');
+
+  let response;
+  try {
+    response = await client.responses.create({
+      model,
+      input: [
+        {
+          role: 'user',
+          content: prompt,
+        },
+      ],
+      text: {
+        format: {
+          type: 'json_schema',
+          name: 'recipe_steps',
+          strict: true,
+          schema: RECIPE_SCHEMA,
+        },
+      },
+    });
+  } catch (err) {
+    console.error('OpenAI recipe steps failed', {
+      model,
+      status: err?.status || err?.statusCode,
+      message: err?.message,
+    });
+    throw formatOpenAiError(err);
+  }
+
+  let parsed;
+  try {
+    parsed = parseModelJson(response);
+  } catch (err) {
+    throw err;
+  }
+
+  try {
+    return validateRecipePayload(parsed);
+  } catch (err) {
+    err.code = err.code || 'MALFORMED_OUTPUT';
+    throw err;
+  }
+}
+
 module.exports = {
   generateMealPlan,
+  generateRecipeSteps,
   validatePlanPayload,
+  validateRecipePayload,
   PLAN_SCHEMA,
+  RECIPE_SCHEMA,
 };

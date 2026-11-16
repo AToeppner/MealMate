@@ -94,8 +94,24 @@
           </div>
 
           <div class="approve-box">
-            <button type="button" id="approve-btn" class="btn primary">Approve cart</button>
+            <div class="approve-actions">
+              <button type="button" id="approve-btn" class="btn primary">Approve cart</button>
+              <button type="button" id="view-recipe-btn" class="btn secondary">View recipe</button>
+            </div>
             <p id="approve-msg" class="hint" role="status"></p>
+          </div>
+
+          <div id="recipe-view" class="recipe-view" hidden>
+            <div class="recipe-view-head">
+              <h3 id="recipe-view-title">How to make it</h3>
+              <p id="recipe-view-meta" class="meta"></p>
+            </div>
+            <ol id="recipe-steps" class="recipe-steps"></ol>
+            <p id="recipe-error" class="error" role="alert" hidden></p>
+            <div class="recipe-view-actions">
+              <button type="button" id="recipe-retry-btn" class="btn secondary" hidden>Retry recipe</button>
+              <button type="button" id="recipe-hide-btn" class="btn ghost">Hide recipe</button>
+            </div>
           </div>
 
           <div id="approved-view" class="approved-view" hidden></div>

@@ -21,6 +21,7 @@ const {
 } = require('./cart');
 const { getOrCreate, checkAiRateLimit } = require('./sessions');
 const { generateMealPlan } = require('./openai-plan');
+const { resolveRecipeSteps, findCachedRecipe, planRecipeKey } = require('./recipe-steps');
 
 const PORT = Number(process.env.PORT) || 3000;
 const HOST = '0.0.0.0';
@@ -131,7 +132,7 @@ app.get('/health', (_req, res) => {
 app.get('/api/meta', attachSession, (_req, res) => {
   res.json({
     openai_configured: isOpenAiConfigured(),
-    model: process.env.OPENAI_MODEL || 'gpt-4.1-mini',
+    model: process.env.OPENAI_MODEL || 'gpt-6-luna',
   });
 });
 
@@ -279,6 +280,51 @@ app.post('/api/plan/approve', attachSession, (req, res) => {
     res.json({ plan: result.review });
   } catch (err) {
     res.status(400).json({ error: err.message, code: err.code || 'ERROR' });
+  }
+});
+
+// Instructional only — failures never block cart approval.
+app.post('/api/plan/recipe', attachSession, async (req, res) => {
+  try {
+    const plan = requirePlan(req, res);
+    if (!plan) return;
+
+    const forceRefresh = Boolean(req.body?.force_refresh);
+    const cacheKey = planRecipeKey(plan);
+    const hasSessionCache =
+      !forceRefresh &&
+      plan.recipe &&
+      plan.recipe.cache_key === cacheKey &&
+      Array.isArray(plan.recipe.steps) &&
+      plan.recipe.steps.length > 0;
+    const hasSavedCache = Boolean(findCachedRecipe(plan, examples));
+
+    // Rate-limit only when we may call Live AI (unknown meals without cache).
+    if (!hasSessionCache && !hasSavedCache) {
+      checkAiRateLimit(req.ip, {
+        max: Number(process.env.AI_RATE_LIMIT_MAX) || 8,
+        windowMs: Number(process.env.AI_RATE_LIMIT_WINDOW_MS) || 600000,
+      });
+    }
+
+    const recipe = await resolveRecipeSteps(plan, {
+      examples,
+      forceRefresh,
+    });
+    res.json({ recipe });
+  } catch (err) {
+    console.error('POST /api/plan/recipe failed', err.code || err.name, err.message);
+    const status =
+      err.code === 'NO_API_KEY' || err.code === 'RATE_LIMIT'
+        ? 429
+        : err.code === 'INVALID_INPUT' || err.code === 'NO_PLAN'
+          ? 400
+          : 502;
+    res.status(status).json({
+      error: err.message || 'Recipe steps failed.',
+      code: err.code || 'OPENAI_ERROR',
+      offer_retry: true,
+    });
   }
 });
 

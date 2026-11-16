@@ -345,10 +345,82 @@ button:focus-visible {
 
 .cart-box,
 .approve-box,
+.recipe-view,
 .approved-view {
   border-top: 1px solid rgba(31, 77, 53, 0.1);
   padding-top: 1rem;
   margin-top: 0.5rem;
+}
+
+.approve-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  align-items: center;
+}
+
+.recipe-view {
+  background: linear-gradient(180deg, #f3faf5, #ffffff);
+  border: 1px solid rgba(31, 77, 53, 0.12);
+  border-radius: 16px;
+  padding: 1rem 1rem 0.85rem;
+}
+
+.recipe-view-head h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1.2rem;
+  color: var(--green-900);
+}
+
+.recipe-view-head .meta {
+  margin: 0.35rem 0 0;
+}
+
+.recipe-steps {
+  margin: 0.85rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.65rem;
+  counter-reset: recipe-step;
+}
+
+.recipe-steps li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.7rem;
+  align-items: start;
+}
+
+.recipe-steps .step-order {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 999px;
+  background: var(--green-100);
+  color: var(--green-800);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.recipe-steps .step-text {
+  color: var(--ink);
+}
+
+.recipe-steps .recipe-loading {
+  display: block;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.recipe-view-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.85rem;
 }
 
 .cart-lines {
@@ -474,7 +546,8 @@ button:focus-visible {
   }
 
   .actions .btn,
-  .approve-box .btn {
+  .approve-actions .btn,
+  .recipe-view-actions .btn {
     width: 100%;
   }
 
