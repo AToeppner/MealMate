@@ -319,7 +319,7 @@ els.approveBtn.addEventListener('click', async () => {
     renderPlan(data.plan);
     saveApprovedToRecipeBook(data.plan);
     els.approveMsg.textContent =
-      'Cart approved (simulated snapshot — stock not decremented). Saved to Recipe Book.';
+      'Cart approved. Saved to Recipe Book.';
   } catch (err) {
     if (err.data?.plan) renderPlan(err.data.plan);
     els.approveMsg.textContent = explainApproval(err.data?.plan) || err.message;
